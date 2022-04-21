@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "115708537843",
+    "project_id": "redoc-4bc86",
+    "storage_bucket": "redoc-4bc86.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:115708537843:android:9d85dd4826ede9f6d38086",
+        "android_client_info": {
+          "package_name": "com.example.redoc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "115708537843-7ql7t6jhmdtrrdg0rd51u1eoqmd14rbj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjBAUl49-v_rJdurz438Qz1uLL8C3M0sA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "115708537843-7ql7t6jhmdtrrdg0rd51u1eoqmd14rbj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
