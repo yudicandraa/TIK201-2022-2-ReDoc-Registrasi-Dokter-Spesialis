@@ -85,7 +85,7 @@ class _PilihDokterState extends State<PilihDokter> {
                             Navigator.push(
                               context,
                               new MaterialPageRoute(
-                                  builder: (context) => new Home()),
+                                  builder: (context) => new PenyakitAnak()),
                             );
                           },
                           icon: Image(image: AssetImage('assets/anak.png')),
