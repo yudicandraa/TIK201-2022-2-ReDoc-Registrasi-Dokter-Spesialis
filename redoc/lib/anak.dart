@@ -5,7 +5,7 @@ class PenyakitAnak extends StatefulWidget {
   const PenyakitAnak({Key? key}) : super(key: key);
 
   @override
-  State<PenyakitAnak> createState() => _AnakState();
+  State<PenyakitAnak> createState() => _PenyakitAnakState();
 }
 
 class _PenyakitAnakState extends State<PenyakitAnak> {
