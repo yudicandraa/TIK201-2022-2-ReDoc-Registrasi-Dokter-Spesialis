@@ -44,7 +44,7 @@ class _PenyakitThtState extends State<PenyakitTht> {
               children: [
                 Container(
                   margin: EdgeInsets.only(bottom: 20),
-                  child: Image(image: AssetImage('assets/Tht2.png')),
+                  child: Image(image: AssetImage('assets/tht2.png')),
                 ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
