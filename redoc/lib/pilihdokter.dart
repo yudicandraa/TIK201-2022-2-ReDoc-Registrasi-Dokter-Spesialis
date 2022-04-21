@@ -2,7 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:redoc/beranda.dart';
 import 'package:redoc/kandungan.dart';
 import 'package:redoc/paru.dart';
+<<<<<<< HEAD
 import 'package:redoc/penyakitdalam.dart';
+import 'package:redoc/penyakitjiwa.dart';
+=======
+import 'package:redoc/penyakitsaraf.dart';
+import 'package:redoc/penyakittht.dart';
+>>>>>>> 1904111010030
 import 'package:redoc/utama.dart';
 
 class PilihDokter extends StatefulWidget {
@@ -132,7 +138,7 @@ class _PilihDokterState extends State<PilihDokter> {
                             Navigator.push(
                               context,
                               new MaterialPageRoute(
-                                  builder: (context) => new Home()),
+                                  builder: (context) => new PenyakitSaraf()),
                             );
                           },
                           icon: Image(image: AssetImage('assets/saraf.png')),
@@ -174,7 +180,7 @@ class _PilihDokterState extends State<PilihDokter> {
                             Navigator.push(
                               context,
                               new MaterialPageRoute(
-                                  builder: (context) => new Home()),
+                                  builder: (context) => new PenyakitTht()),
                             );
                           },
                           icon: Image(image: AssetImage('assets/tht.png')),
@@ -220,7 +226,7 @@ class _PilihDokterState extends State<PilihDokter> {
                             Navigator.push(
                               context,
                               new MaterialPageRoute(
-                                  builder: (context) => new Home()),
+                                  builder: (context) => new PenyakitJiwa()),
                             );
                           },
                           icon: Image(image: AssetImage('assets/jiwa.png')),

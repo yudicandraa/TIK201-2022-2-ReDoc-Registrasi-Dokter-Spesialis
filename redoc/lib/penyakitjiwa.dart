@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:redoc/pilihdokter.dart';
 
-class PenyakitAnak extends StatefulWidget {
-  const PenyakitAnak({Key? key}) : super(key: key);
+class PenyakitJiwa extends StatefulWidget {
+  const PenyakitJiwa({Key? key}) : super(key: key);
 
   @override
-  State<PenyakitAnak> createState() => _PenyakitAnakState();
+  State<PenyakitJiwa> createState() => _PenyakitJiwaState();
 }
 
-class _PenyakitAnakState extends State<PenyakitAnak> {
+class _PenyakitJiwaState extends State<PenyakitJiwa> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,7 +44,7 @@ class _PenyakitAnakState extends State<PenyakitAnak> {
               children: [
                 Container(
                   margin: EdgeInsets.only(bottom: 20),
-                  child: Image(image: AssetImage('assets/anak2.png')),
+                  child: Image(image: AssetImage('assets/Jiwa2.png')),
                 ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -57,7 +57,7 @@ class _PenyakitAnakState extends State<PenyakitAnak> {
                           fontSize: 16),
                     ),
                     Text(
-                      'Penyakit Anak',
+                      'Penyakit Jiwa',
                       style: TextStyle(
                           color: Color(0xffffffff),
                           fontFamily: 'Poppins',
