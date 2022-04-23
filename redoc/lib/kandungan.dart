@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:redoc/nomorAntrian.dart';
 import 'package:redoc/pilihdokter.dart';
 
 class PenyakitKandungan extends StatefulWidget {
@@ -93,7 +94,14 @@ class _PenyakitKandunganState extends State<PenyakitKandungan> {
                                       borderRadius:
                                           BorderRadius.circular(30.0)),
                                   color: Color(0xffffffff),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      new MaterialPageRoute(
+                                          builder: (context) =>
+                                              new NomorAntrian()),
+                                    );
+                                  },
                                   child: Center(
                                     child: Text(
                                       'Pilih Dokter',
