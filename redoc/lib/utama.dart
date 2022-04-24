@@ -92,6 +92,9 @@ class Utama extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image(image: AssetImage('assets/jdwlprtkhrini.png')),
+                    SizedBox(
+                      width: 20,
+                    ),
                     Image(image: AssetImage('assets/rsharbun.png')),
                   ],
                 )
