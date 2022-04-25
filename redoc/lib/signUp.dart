@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:redoc/login.dart';
 import 'beranda.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class DaftarAkun extends StatelessWidget {
   const DaftarAkun({Key? key}) : super(key: key);
@@ -244,7 +243,7 @@ class DaftarAkun extends StatelessWidget {
                         Navigator.push(
                           context,
                           new MaterialPageRoute(
-                              builder: (context) => new Home()),
+                              builder: (context) => new LoginPage()),
                         );
                       },
                       child: Center(
@@ -274,7 +273,7 @@ class DaftarAkun extends StatelessWidget {
                     Navigator.push(
                       context,
                       new MaterialPageRoute(
-                          builder: (context) => new SignInPage()),
+                          builder: (context) => new LoginPage()),
                     );
                   },
                   child: Text(

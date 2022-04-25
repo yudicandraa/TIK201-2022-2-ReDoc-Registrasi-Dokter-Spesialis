@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:redoc/pilihdokter.dart';
+import 'package:redoc/rekammedis.dart';
 
 class Utama extends StatelessWidget {
   const Utama({Key? key}) : super(key: key);
@@ -73,11 +74,41 @@ class Utama extends StatelessWidget {
                 margin: const EdgeInsets.only(top: 10),
                 child: Image(image: AssetImage('assets/line.png'))),
             Container(
-                margin: const EdgeInsets.only(top: 15),
-                child: Image(image: AssetImage('assets/informasi.png'))),
+              margin: const EdgeInsets.only(top: 10),
+              child: SizedBox(
+                height: 100,
+                width: 350,
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) => new PilihDokter()),
+                    );
+                  },
+                  icon: Image(image: AssetImage('assets/informasi.png')),
+                  iconSize: 200,
+                ),
+              ),
+            ),
             Container(
-                margin: const EdgeInsets.only(top: 10),
-                child: Image(image: AssetImage('assets/tentang.png'))),
+              margin: const EdgeInsets.only(top: 10),
+              child: SizedBox(
+                height: 100,
+                width: 350,
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) => new RekamMedis()),
+                    );
+                  },
+                  icon: Image(image: AssetImage('assets/tentang.png')),
+                  iconSize: 200,
+                ),
+              ),
+            ),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

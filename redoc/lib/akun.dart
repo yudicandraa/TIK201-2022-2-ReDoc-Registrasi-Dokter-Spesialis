@@ -13,6 +13,7 @@ class Akun extends StatelessWidget {
           child: Column(
             children: [
               Container(
+                width: MediaQuery.of(context).size.width,
                 margin: EdgeInsets.only(bottom: 70),
                 child: Image(image: AssetImage('assets/atasakun.png')),
               ),
@@ -43,7 +44,7 @@ class Akun extends StatelessWidget {
                           Navigator.push(
                             context,
                             new MaterialPageRoute(
-                                builder: (context) => new SignInPage()),
+                                builder: (context) => new LoginPage()),
                           );
                         },
                         child: Center(

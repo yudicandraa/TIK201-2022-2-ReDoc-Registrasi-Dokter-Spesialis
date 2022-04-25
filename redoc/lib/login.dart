@@ -1,9 +1,20 @@
 import 'package:flutter/material.dart';
+
 import 'package:redoc/signUp.dart';
 import 'beranda.dart';
 
-class SignInPage extends StatelessWidget {
-  const SignInPage({Key? key}) : super(key: key);
+class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final TextEditingController emailController = new TextEditingController();
+  final TextEditingController passwordController = new TextEditingController();
+
+  // Firebase
 
   @override
   Widget build(BuildContext context) {
@@ -108,6 +119,18 @@ class SignInPage extends StatelessWidget {
               margin: const EdgeInsets.only(top: 30),
               padding: new EdgeInsets.all(20.0),
               child: TextFormField(
+                controller: emailController,
+                keyboardType: TextInputType.emailAddress,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return ("Masukkan Email");
+                  }
+                  if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9+_.-]+.[a-z]")
+                      .hasMatch(value)) {
+                    return ("Masukkan Email yang Valid");
+                  }
+                  return null;
+                },
                 decoration: InputDecoration(
                   //fillColor: Color(0xffF1F0F5),
                   //filled: true,
@@ -121,17 +144,22 @@ class SignInPage extends StatelessWidget {
                     borderSide:
                         BorderSide(color: Color(0xff989898), width: 2.0),
                   ),
-                  labelText: 'Email / No. Hp',
+                  labelText: 'Email',
                   labelStyle: TextStyle(
                       color: Color(0xff989898),
                       fontFamily: 'PoppinsRegular',
                       fontSize: 14),
                 ),
+                onSaved: (value) {
+                  emailController.text = value!;
+                },
               ),
             ),
             Container(
               padding: new EdgeInsets.only(right: 20.0, left: 20, bottom: 20),
               child: TextFormField(
+                controller: passwordController,
+                keyboardType: TextInputType.visiblePassword,
                 decoration: InputDecoration(
                   //fillColor: Color(0xffF1F0F5),
                   //filled: true,
@@ -151,6 +179,9 @@ class SignInPage extends StatelessWidget {
                       fontFamily: 'PoppinsRegular',
                       fontSize: 12),
                 ),
+                onSaved: (value) {
+                  passwordController.text = value!;
+                },
               ),
             ),
             Row(
