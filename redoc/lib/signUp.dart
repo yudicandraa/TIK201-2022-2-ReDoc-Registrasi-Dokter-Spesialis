@@ -1,15 +1,30 @@
+import 'dart:math';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:redoc/login.dart';
-import 'beranda.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
-class DaftarAkun extends StatelessWidget {
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:redoc/user_model.dart';
+import 'beranda.dart';
+
+class DaftarAkun extends StatefulWidget {
   const DaftarAkun({Key? key}) : super(key: key);
 
   @override
+  State<DaftarAkun> createState() => _DaftarAkunState();
+}
+
+class _DaftarAkunState extends State<DaftarAkun> {
+  final TextEditingController email = TextEditingController();
+  final TextEditingController katasandi = TextEditingController();
+  final TextEditingController namaLengkap = TextEditingController();
+  final TextEditingController noHp = TextEditingController();
+
+  final _auth = FirebaseAuth.instance;
+  @override
   Widget build(BuildContext context) {
-    TextEditingController email = TextEditingController();
-    TextEditingController katasandi = TextEditingController();
     return Scaffold(
       body: Container(
           child: Container(
@@ -111,6 +126,10 @@ class DaftarAkun extends StatelessWidget {
               margin: const EdgeInsets.only(top: 30),
               padding: new EdgeInsets.only(right: 20.0, left: 20, bottom: 10),
               child: TextFormField(
+                controller: namaLengkap,
+                onSaved: (value) {
+                  namaLengkap.text = value!;
+                },
                 decoration: InputDecoration(
                   //fillColor: Color(0xffF1F0F5),
                   //filled: true,
@@ -136,6 +155,9 @@ class DaftarAkun extends StatelessWidget {
               padding: new EdgeInsets.only(right: 20.0, left: 20, bottom: 10),
               child: TextFormField(
                 controller: email,
+                onSaved: (value) {
+                  email.text = value!;
+                },
                 decoration: InputDecoration(
                   //fillColor: Color(0xffF1F0F5),
                   //filled: true,
@@ -160,6 +182,10 @@ class DaftarAkun extends StatelessWidget {
             Container(
               padding: new EdgeInsets.only(right: 20.0, left: 20, bottom: 10),
               child: TextFormField(
+                controller: noHp,
+                onSaved: (value) {
+                  noHp.text = value!;
+                },
                 decoration: InputDecoration(
                   //fillColor: Color(0xffF1F0F5),
                   //filled: true,
@@ -185,6 +211,9 @@ class DaftarAkun extends StatelessWidget {
               padding: new EdgeInsets.only(right: 20.0, left: 20, bottom: 10),
               child: TextFormField(
                 controller: katasandi,
+                onSaved: (value) {
+                  katasandi.text = value!;
+                },
                 decoration: InputDecoration(
                   //fillColor: Color(0xffF1F0F5),
                   //filled: true,
@@ -241,11 +270,7 @@ class DaftarAkun extends StatelessWidget {
                           borderRadius: BorderRadius.circular(30.0)),
                       color: Color(0xff17B3AC),
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                              builder: (context) => new Home()),
-                        );
+                        signUp(email.text, katasandi.text);
                       },
                       child: Center(
                         child: Text(
@@ -274,7 +299,7 @@ class DaftarAkun extends StatelessWidget {
                     Navigator.push(
                       context,
                       new MaterialPageRoute(
-                          builder: (context) => new SignInPage()),
+                          builder: (context) => new LoginPage()),
                     );
                   },
                   child: Text(
@@ -303,5 +328,38 @@ class DaftarAkun extends StatelessWidget {
         ),
       )),
     );
+  }
+
+  void signUp(String email, String password) async {
+    await _auth
+        .createUserWithEmailAndPassword(email: email, password: password)
+        .then((value) => {postDetailsToFirestore()})
+        .catchError((e) {
+      Fluttertoast.showToast(msg: e!.message);
+    });
+  }
+
+  postDetailsToFirestore() async {
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    User? user = _auth.currentUser;
+
+    UserModel userModel = UserModel();
+    final noRM = Random().nextInt(100000);
+    userModel.email = user!.email;
+    userModel.uid = user.uid;
+    userModel.namaLengkap = namaLengkap.text;
+    userModel.noHp = noHp.text;
+    userModel.rekamMedis = noRM.toString();
+
+    await firebaseFirestore
+        .collection("users")
+        .doc(user.uid)
+        .set(userModel.toMap());
+
+    Fluttertoast.showToast(msg: "Pendaftaran Berhasil");
+    Navigator.pushAndRemoveUntil(
+        (context),
+        MaterialPageRoute(builder: (context) => const LoginPage()),
+        (route) => false);
   }
 }
