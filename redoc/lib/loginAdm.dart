@@ -1,40 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:redoc/loginAdm.dart';
-import 'package:redoc/signUp.dart';
-import 'beranda.dart';
+import 'package:redoc/login.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class LoginAdm extends StatefulWidget {
+  const LoginAdm({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<LoginAdm> createState() => _LoginAdmState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  final TextEditingController emailController = new TextEditingController();
-  final TextEditingController passwordController = new TextEditingController();
-
-  final _auth = FirebaseAuth.instance;
-
-  void signIn(String email, String password) async {
-    await _auth
-        .signInWithEmailAndPassword(email: email, password: password)
-        .then((uid) => {
-              Fluttertoast.showToast(msg: "Login Berhasil"),
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const Home()),
-              )
-            })
-        .catchError((e) {
-      Fluttertoast.showToast(msg: e!.message);
-    });
-  }
-
-  // Firebase
-
+class _LoginAdmState extends State<LoginAdm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -138,7 +112,6 @@ class _LoginPageState extends State<LoginPage> {
               margin: const EdgeInsets.only(top: 30),
               padding: new EdgeInsets.all(20.0),
               child: TextFormField(
-                controller: emailController,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   //fillColor: Color(0xffF1F0F5),
@@ -159,15 +132,12 @@ class _LoginPageState extends State<LoginPage> {
                       fontFamily: 'PoppinsRegular',
                       fontSize: 14),
                 ),
-                onSaved: (value) {
-                  emailController.text = value!;
-                },
+                onSaved: (value) {},
               ),
             ),
             Container(
               padding: new EdgeInsets.only(right: 20.0, left: 20, bottom: 20),
               child: TextFormField(
-                controller: passwordController,
                 keyboardType: TextInputType.visiblePassword,
                 decoration: InputDecoration(
                   //fillColor: Color(0xffF1F0F5),
@@ -188,9 +158,7 @@ class _LoginPageState extends State<LoginPage> {
                       fontFamily: 'PoppinsRegular',
                       fontSize: 12),
                 ),
-                onSaved: (value) {
-                  passwordController.text = value!;
-                },
+                onSaved: (value) {},
               ),
             ),
             Row(
@@ -203,11 +171,11 @@ class _LoginPageState extends State<LoginPage> {
                         Navigator.push(
                           context,
                           new MaterialPageRoute(
-                              builder: (context) => new LoginAdm()),
+                              builder: (context) => new LoginPage()),
                         );
                       },
                       child: Text(
-                        'Login Sebagai Admin',
+                        'Login Sebagai Pasien',
                         style: TextStyle(
                             color: Color(0xff000000),
                             fontFamily: 'PoppinsRegular',
@@ -245,9 +213,7 @@ class _LoginPageState extends State<LoginPage> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30.0)),
                       color: Color(0xff17B3AC),
-                      onPressed: () {
-                        signIn(emailController.text, passwordController.text);
-                      },
+                      onPressed: () {},
                       child: Center(
                         child: Text(
                           'Masuk',
@@ -271,13 +237,7 @@ class _LoginPageState extends State<LoginPage> {
                       fontSize: 11),
                 ),
                 TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (context) => new DaftarAkun()),
-                    );
-                  },
+                  onPressed: () {},
                   child: Text(
                     'Daftar Disini',
                     style: TextStyle(
