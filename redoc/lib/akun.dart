@@ -1,8 +1,32 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:redoc/login.dart';
+import 'package:redoc/user_model.dart';
 
-class Akun extends StatelessWidget {
+class Akun extends StatefulWidget {
   const Akun({Key? key}) : super(key: key);
+
+  @override
+  State<Akun> createState() => _AkunState();
+}
+
+class _AkunState extends State<Akun> {
+  User? user = FirebaseAuth.instance.currentUser;
+  UserModel loginUser = UserModel();
+
+  @override
+  void initState() {
+    super.initState();
+    FirebaseFirestore.instance
+        .collection("users")
+        .doc(user!.uid)
+        .get()
+        .then((value) {
+      this.loginUser = UserModel.fromMap(value.data());
+      setState(() {});
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -12,10 +36,39 @@ class Akun extends StatelessWidget {
         Container(
           child: Column(
             children: [
-              Container(
-                width: MediaQuery.of(context).size.width,
-                margin: EdgeInsets.only(bottom: 70),
-                child: Image(image: AssetImage('assets/atasakun.png')),
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    margin: EdgeInsets.only(bottom: 70),
+                    child: Image(image: AssetImage('assets/atasakun.png')),
+                  ),
+                  Column(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(top: 100),
+                        child: Text(
+                          '${loginUser.namaLengkap}',
+                          style: TextStyle(
+                              color: Color(0xff000000),
+                              fontFamily: 'Poppins',
+                              fontSize: 24),
+                        ),
+                      ),
+                      Container(
+                        //margin: EdgeInsets.only(left: 70, top: 100),
+                        child: Text(
+                          'No. Rekam Medis : ${loginUser.rekamMedis}',
+                          style: TextStyle(
+                              color: Color(0xff000000),
+                              fontFamily: 'PoppinsRegular',
+                              fontSize: 14),
+                        ),
+                      )
+                    ],
+                  )
+                ],
               ),
               SizedBox(
                 height: 200,
@@ -64,5 +117,13 @@ class Akun extends StatelessWidget {
         )
       ]),
     ));
+  }
+
+  Future<void> logout(BuildContext context) async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const LoginPage()),
+    );
   }
 }
