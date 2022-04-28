@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:redoc/loginAdm.dart';
+import 'package:redoc/admin/loginAdm.dart';
 import 'package:redoc/signUp.dart';
 import 'beranda.dart';
 
@@ -130,12 +130,23 @@ class _LoginPageState extends State<LoginPage> {
                 ],
               ),
             ),
+
             Container(
-              margin: EdgeInsets.only(top: 20),
-              child: Image(image: AssetImage('assets/ataudaftardisini.png')),
+              margin: EdgeInsets.only(top: 10),
+              child: Text(
+                'Login',
+                style: TextStyle(fontFamily: 'Poppins', fontSize: 20),
+              ),
             ),
             Container(
-              margin: const EdgeInsets.only(top: 30),
+              //margin: EdgeInsets.only(top: 30),
+              child: Text(
+                'Sebagai Pasien',
+                style: TextStyle(fontFamily: 'PoppinsRegular', fontSize: 14),
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.only(top: 20),
               padding: new EdgeInsets.all(20.0),
               child: TextFormField(
                 controller: emailController,

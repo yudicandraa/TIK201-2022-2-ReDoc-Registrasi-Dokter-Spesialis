@@ -1,20 +1,20 @@
-class UserModel {
+class AdminModel {
   String? uid;
   String? namaLengkap;
   String? email;
   String? noHp;
-  String? rekamMedis;
+  String? noPetugas;
 
-  UserModel(
-      {this.uid, this.email, this.namaLengkap, this.noHp, this.rekamMedis});
+  AdminModel(
+      {this.uid, this.email, this.namaLengkap, this.noHp, this.noPetugas});
 
-  factory UserModel.fromMap(map) {
-    return UserModel(
+  factory AdminModel.fromMap(map) {
+    return AdminModel(
       uid: map['uid'],
       email: map['email'],
       namaLengkap: map['namaLengkap'],
       noHp: map['noHp'],
-      rekamMedis: map['rekamMedis'],
+      noPetugas: map['noPetugas'],
     );
   }
 
@@ -24,7 +24,7 @@ class UserModel {
       'email': email,
       'namaLengkap': namaLengkap,
       'noHp': noHp,
-      'rekamMedis': rekamMedis,
+      'noPetugas': noPetugas,
     };
   }
 }

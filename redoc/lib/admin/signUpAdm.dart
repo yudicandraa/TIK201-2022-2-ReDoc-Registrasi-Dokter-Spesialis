@@ -3,21 +3,19 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:redoc/login.dart';
-
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:redoc/admin/signUpAdm.dart';
-import 'package:redoc/user_model.dart';
-import 'beranda.dart';
+import 'package:redoc/admin/admin_model.dart';
+import 'package:redoc/admin/loginAdm.dart';
+import 'package:redoc/signUp.dart';
 
-class DaftarAkun extends StatefulWidget {
-  const DaftarAkun({Key? key}) : super(key: key);
+class DaftarAkunAdm extends StatefulWidget {
+  const DaftarAkunAdm({Key? key}) : super(key: key);
 
   @override
-  State<DaftarAkun> createState() => _DaftarAkunState();
+  State<DaftarAkunAdm> createState() => _DaftarAkunAdmState();
 }
 
-class _DaftarAkunState extends State<DaftarAkun> {
+class _DaftarAkunAdmState extends State<DaftarAkunAdm> {
   final TextEditingController email = TextEditingController();
   final TextEditingController katasandi = TextEditingController();
   final TextEditingController namaLengkap = TextEditingController();
@@ -129,7 +127,7 @@ class _DaftarAkunState extends State<DaftarAkun> {
             Container(
               //margin: EdgeInsets.only(top: 30),
               child: Text(
-                'Sebagai Pasien',
+                'Sebagai Admin',
                 style: TextStyle(fontFamily: 'PoppinsRegular', fontSize: 14),
               ),
             ),
@@ -256,11 +254,11 @@ class _DaftarAkunState extends State<DaftarAkun> {
                         Navigator.push(
                           context,
                           new MaterialPageRoute(
-                              builder: (context) => new DaftarAkunAdm()),
+                              builder: (context) => new DaftarAkun()),
                         );
                       },
                       child: Text(
-                        'Daftar Sebagai Admin',
+                        'Daftar Sebagai Pasien',
                         style: TextStyle(
                             color: Color(0xff000000),
                             fontFamily: 'PoppinsRegular',
@@ -316,7 +314,7 @@ class _DaftarAkunState extends State<DaftarAkun> {
                     Navigator.push(
                       context,
                       new MaterialPageRoute(
-                          builder: (context) => new LoginPage()),
+                          builder: (context) => new LoginAdm()),
                     );
                   },
                   child: Text(
@@ -358,25 +356,25 @@ class _DaftarAkunState extends State<DaftarAkun> {
 
   postDetailsToFirestore() async {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-    User? user = _auth.currentUser;
+    User? admin = _auth.currentUser;
 
-    UserModel userModel = UserModel();
+    AdminModel adminModel = AdminModel();
     final noRM = Random().nextInt(100000);
-    userModel.email = user!.email;
-    userModel.uid = user.uid;
-    userModel.namaLengkap = namaLengkap.text;
-    userModel.noHp = noHp.text;
-    userModel.rekamMedis = "000" + noRM.toString();
+    adminModel.email = admin!.email;
+    adminModel.uid = admin.uid;
+    adminModel.namaLengkap = namaLengkap.text;
+    adminModel.noHp = noHp.text;
+    adminModel.noPetugas = "000" + noRM.toString();
 
     await firebaseFirestore
-        .collection("users")
-        .doc(user.uid)
-        .set(userModel.toMap());
+        .collection("admin")
+        .doc(admin.uid)
+        .set(adminModel.toMap());
 
     Fluttertoast.showToast(msg: "Pendaftaran Berhasil");
     Navigator.pushAndRemoveUntil(
         (context),
-        MaterialPageRoute(builder: (context) => const LoginPage()),
+        MaterialPageRoute(builder: (context) => const LoginAdm()),
         (route) => false);
   }
 }
