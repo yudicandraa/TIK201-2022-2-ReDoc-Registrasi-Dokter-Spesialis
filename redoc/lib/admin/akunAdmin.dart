@@ -1,29 +1,29 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:redoc/login.dart';
-import 'package:redoc/user_model.dart';
+import 'package:redoc/admin/admin_model.dart';
+import 'package:redoc/admin/loginAdm.dart';
 
-class Akun extends StatefulWidget {
-  const Akun({Key? key}) : super(key: key);
+class AkunAdmin extends StatefulWidget {
+  const AkunAdmin({Key? key}) : super(key: key);
 
   @override
-  State<Akun> createState() => _AkunState();
+  State<AkunAdmin> createState() => _AkunAdminState();
 }
 
-class _AkunState extends State<Akun> {
+class _AkunAdminState extends State<AkunAdmin> {
   User? user = FirebaseAuth.instance.currentUser;
-  UserModel loginUser = UserModel();
+  AdminModel loginUser = AdminModel();
 
   @override
   void initState() {
     super.initState();
     FirebaseFirestore.instance
-        .collection("users")
+        .collection("admin")
         .doc(user!.uid)
         .get()
         .then((value) {
-      this.loginUser = UserModel.fromMap(value.data());
+      this.loginUser = AdminModel.fromMap(value.data());
       setState(() {});
     });
   }
@@ -59,7 +59,7 @@ class _AkunState extends State<Akun> {
                       Container(
                         //margin: EdgeInsets.only(left: 70, top: 100),
                         child: Text(
-                          'No. Rekam Medis : ${loginUser.rekamMedis}',
+                          'No. Petugas : ${loginUser.noPetugas}',
                           style: TextStyle(
                               color: Color(0xff000000),
                               fontFamily: 'PoppinsRegular',
@@ -119,7 +119,7 @@ class _AkunState extends State<Akun> {
     await FirebaseAuth.instance.signOut();
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const LoginPage()),
+      MaterialPageRoute(builder: (context) => const LoginAdm()),
     );
   }
 }

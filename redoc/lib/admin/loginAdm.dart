@@ -1,29 +1,38 @@
-import 'dart:math';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:redoc/login.dart';
-
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:redoc/admin/homeAdmin.dart';
+import 'package:redoc/login.dart';
 import 'package:redoc/admin/signUpAdm.dart';
-import 'package:redoc/user_model.dart';
-import 'beranda.dart';
 
-class DaftarAkun extends StatefulWidget {
-  const DaftarAkun({Key? key}) : super(key: key);
+class LoginAdm extends StatefulWidget {
+  const LoginAdm({Key? key}) : super(key: key);
 
   @override
-  State<DaftarAkun> createState() => _DaftarAkunState();
+  State<LoginAdm> createState() => _LoginAdmState();
 }
 
-class _DaftarAkunState extends State<DaftarAkun> {
-  final TextEditingController email = TextEditingController();
-  final TextEditingController katasandi = TextEditingController();
-  final TextEditingController namaLengkap = TextEditingController();
-  final TextEditingController noHp = TextEditingController();
+class _LoginAdmState extends State<LoginAdm> {
+  final TextEditingController emailController = new TextEditingController();
+  final TextEditingController passwordController = new TextEditingController();
 
   final _auth = FirebaseAuth.instance;
+
+  void signIn(String email, String password) async {
+    await _auth
+        .signInWithEmailAndPassword(email: email, password: password)
+        .then((uid) => {
+              Fluttertoast.showToast(msg: "Login Berhasil"),
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const HomeAdmin()),
+              )
+            })
+        .catchError((e) {
+      Fluttertoast.showToast(msg: e!.message);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,12 +46,12 @@ class _DaftarAkunState extends State<DaftarAkun> {
               child: Image(image: AssetImage('assets/bolalogin.png')),
             ),
             Container(
-              margin: EdgeInsets.only(bottom: 10),
+              margin: EdgeInsets.only(bottom: 20),
               alignment: Alignment.topCenter,
               child: Image(image: AssetImage('assets/slmtdatang.png')),
             ),
             Container(
-              margin: EdgeInsets.only(top: 20),
+              margin: EdgeInsets.only(top: 30),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -50,7 +59,7 @@ class _DaftarAkunState extends State<DaftarAkun> {
                     child: Container(
                       height: 50,
                       width: 180,
-                      margin: EdgeInsets.only(bottom: 20),
+                      margin: EdgeInsets.only(bottom: 30),
                       //alignment: Alignment(0.0, -1.0),
                       child: RaisedButton(
                         shape: RoundedRectangleBorder(
@@ -85,7 +94,7 @@ class _DaftarAkunState extends State<DaftarAkun> {
                     child: Container(
                       height: 50,
                       width: 180,
-                      margin: EdgeInsets.only(bottom: 20),
+                      margin: EdgeInsets.only(bottom: 30),
                       //alignment: Alignment(0.0, -1.0),
                       child: RaisedButton(
                         shape: RoundedRectangleBorder(
@@ -119,56 +128,27 @@ class _DaftarAkunState extends State<DaftarAkun> {
                 ],
               ),
             ),
+
             Container(
               margin: EdgeInsets.only(top: 10),
               child: Text(
-                'Daftar',
+                'Login',
                 style: TextStyle(fontFamily: 'Poppins', fontSize: 20),
               ),
             ),
             Container(
               //margin: EdgeInsets.only(top: 30),
               child: Text(
-                'Sebagai Pasien',
-                style: TextStyle(fontFamily: 'PoppinsRegular', fontSize: 14),
+                'Sebagai Admin',
+                style: TextStyle(fontFamily: 'PoppinsRegular', fontSize: 12),
               ),
             ),
             Container(
-              margin: const EdgeInsets.only(top: 30),
-              padding: new EdgeInsets.only(right: 20.0, left: 20, bottom: 10),
+              margin: const EdgeInsets.only(top: 20),
+              padding: new EdgeInsets.all(20.0),
               child: TextFormField(
-                controller: namaLengkap,
-                onSaved: (value) {
-                  namaLengkap.text = value!;
-                },
-                decoration: InputDecoration(
-                  //fillColor: Color(0xffF1F0F5),
-                  //filled: true,
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    borderSide:
-                        BorderSide(color: Color(0xff989898), width: 2.0),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    borderSide:
-                        BorderSide(color: Color(0xff989898), width: 2.0),
-                  ),
-                  labelText: 'Nama Lengkap',
-                  labelStyle: TextStyle(
-                      color: Color(0xff989898),
-                      fontFamily: 'PoppinsRegular',
-                      fontSize: 14),
-                ),
-              ),
-            ),
-            Container(
-              padding: new EdgeInsets.only(right: 20.0, left: 20, bottom: 10),
-              child: TextFormField(
-                controller: email,
-                onSaved: (value) {
-                  email.text = value!;
-                },
+                controller: emailController,
+                keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   //fillColor: Color(0xffF1F0F5),
                   //filled: true,
@@ -186,45 +166,21 @@ class _DaftarAkunState extends State<DaftarAkun> {
                   labelStyle: TextStyle(
                       color: Color(0xff989898),
                       fontFamily: 'PoppinsRegular',
-                      fontSize: 12),
+                      fontSize: 14),
                 ),
+                onSaved: (value) {
+                  emailController.text = value!;
+                },
               ),
             ),
             Container(
-              padding: new EdgeInsets.only(right: 20.0, left: 20, bottom: 10),
+              padding: new EdgeInsets.only(right: 20.0, left: 20, bottom: 20),
               child: TextFormField(
-                controller: noHp,
+                controller: passwordController,
                 onSaved: (value) {
-                  noHp.text = value!;
+                  passwordController.text = value!;
                 },
-                decoration: InputDecoration(
-                  //fillColor: Color(0xffF1F0F5),
-                  //filled: true,
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    borderSide:
-                        BorderSide(color: Color(0xff989898), width: 2.0),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    borderSide:
-                        BorderSide(color: Color(0xff989898), width: 2.0),
-                  ),
-                  labelText: 'Nomor Telepon',
-                  labelStyle: TextStyle(
-                      color: Color(0xff989898),
-                      fontFamily: 'PoppinsRegular',
-                      fontSize: 12),
-                ),
-              ),
-            ),
-            Container(
-              padding: new EdgeInsets.only(right: 20.0, left: 20, bottom: 10),
-              child: TextFormField(
-                controller: katasandi,
-                onSaved: (value) {
-                  katasandi.text = value!;
-                },
+                keyboardType: TextInputType.visiblePassword,
                 decoration: InputDecoration(
                   //fillColor: Color(0xffF1F0F5),
                   //filled: true,
@@ -256,11 +212,23 @@ class _DaftarAkunState extends State<DaftarAkun> {
                         Navigator.push(
                           context,
                           new MaterialPageRoute(
-                              builder: (context) => new DaftarAkunAdm()),
+                              builder: (context) => new LoginPage()),
                         );
                       },
                       child: Text(
-                        'Daftar Sebagai Admin',
+                        'Login Sebagai Pasien',
+                        style: TextStyle(
+                            color: Color(0xff000000),
+                            fontFamily: 'PoppinsRegular',
+                            fontSize: 12),
+                      ),
+                    )),
+                Container(
+                    margin: EdgeInsets.only(right: 25),
+                    child: TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        'Lupa Kata Sandi?',
                         style: TextStyle(
                             color: Color(0xff000000),
                             fontFamily: 'PoppinsRegular',
@@ -287,11 +255,11 @@ class _DaftarAkunState extends State<DaftarAkun> {
                           borderRadius: BorderRadius.circular(30.0)),
                       color: Color(0xff17B3AC),
                       onPressed: () {
-                        signUp(email.text, katasandi.text);
+                        signIn(emailController.text, passwordController.text);
                       },
                       child: Center(
                         child: Text(
-                          'Daftar',
+                          'Masuk',
                           style: TextStyle(
                               color: Color(0xffffffff),
                               fontSize: 14,
@@ -305,7 +273,7 @@ class _DaftarAkunState extends State<DaftarAkun> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Sudah Punya Akun?',
+                  'Belum punya akun?',
                   style: TextStyle(
                       color: Color(0xff000000),
                       fontFamily: 'PoppinsRegular',
@@ -316,11 +284,11 @@ class _DaftarAkunState extends State<DaftarAkun> {
                     Navigator.push(
                       context,
                       new MaterialPageRoute(
-                          builder: (context) => new LoginPage()),
+                          builder: (context) => new DaftarAkunAdm()),
                     );
                   },
                   child: Text(
-                    'Login Disini',
+                    'Daftar Disini',
                     style: TextStyle(
                         color: Color(0xff000000),
                         fontFamily: 'Poppins',
@@ -345,38 +313,5 @@ class _DaftarAkunState extends State<DaftarAkun> {
         ),
       )),
     );
-  }
-
-  void signUp(String email, String password) async {
-    await _auth
-        .createUserWithEmailAndPassword(email: email, password: password)
-        .then((value) => {postDetailsToFirestore()})
-        .catchError((e) {
-      Fluttertoast.showToast(msg: e!.message);
-    });
-  }
-
-  postDetailsToFirestore() async {
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-    User? user = _auth.currentUser;
-
-    UserModel userModel = UserModel();
-    final noRM = Random().nextInt(100000);
-    userModel.email = user!.email;
-    userModel.uid = user.uid;
-    userModel.namaLengkap = namaLengkap.text;
-    userModel.noHp = noHp.text;
-    userModel.rekamMedis = "000" + noRM.toString();
-
-    await firebaseFirestore
-        .collection("users")
-        .doc(user.uid)
-        .set(userModel.toMap());
-
-    Fluttertoast.showToast(msg: "Pendaftaran Berhasil");
-    Navigator.pushAndRemoveUntil(
-        (context),
-        MaterialPageRoute(builder: (context) => const LoginPage()),
-        (route) => false);
   }
 }
