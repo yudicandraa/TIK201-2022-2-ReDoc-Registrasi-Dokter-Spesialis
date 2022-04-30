@@ -92,7 +92,25 @@ class _RekamMedisState extends State<RekamMedis> {
                 SizedBox(
                   height: 20,
                 ),
-                Image(image: AssetImage('assets/diagnosa.png')),
+                Stack(
+                  children: [
+                    Container(
+                      alignment: Alignment.center,
+                      child: Image(image: AssetImage('assets/diagnosa.png')),
+                    ),
+                    Container(
+                      alignment: Alignment.center,
+                      margin: EdgeInsets.only(top: 40),
+                      child: Text(
+                        '${loginUser.dataRM}',
+                        style: TextStyle(
+                            fontFamily: 'PoppinsRegular',
+                            fontSize: 13,
+                            color: Color(0xff35858B)),
+                      ),
+                    )
+                  ],
+                ),
                 Container(
                   margin: const EdgeInsets.only(top: 10),
                   child: SizedBox(

@@ -2,6 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:redoc/admin/admin_model.dart';
+<<<<<<< Updated upstream
+=======
+import 'package:redoc/admin/rekamMedisAdm.dart';
+>>>>>>> Stashed changes
 
 class UtamaAdmin extends StatefulWidget {
   const UtamaAdmin({Key? key}) : super(key: key);
@@ -95,7 +99,16 @@ class _UtamaAdminState extends State<UtamaAdmin> {
             Container(
               margin: EdgeInsets.only(top: 20),
               child: GestureDetector(
+<<<<<<< Updated upstream
                   onTap: () {},
+=======
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const RMadmin()),
+                    );
+                  },
+>>>>>>> Stashed changes
                   child: Image(image: AssetImage('assets/tentang.png'))),
             ),
             Column(

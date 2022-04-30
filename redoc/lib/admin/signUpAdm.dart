@@ -360,11 +360,20 @@ class _DaftarAkunAdmState extends State<DaftarAkunAdm> {
 
     AdminModel adminModel = AdminModel();
     final noRM = Random().nextInt(100000);
+<<<<<<< Updated upstream
     adminModel.email = admin!.email;
     adminModel.uid = admin.uid;
     adminModel.namaLengkap = namaLengkap.text;
     adminModel.noHp = noHp.text;
     adminModel.noPetugas = "000" + noRM.toString();
+=======
+    String noadmin = "000" + noRM.toString();
+    adminModel.email = admin!.email;
+    adminModel.uid = noadmin;
+    adminModel.namaLengkap = namaLengkap.text;
+    adminModel.noHp = noHp.text;
+    adminModel.noPetugas = noadmin;
+>>>>>>> Stashed changes
 
     await firebaseFirestore
         .collection("admin")
