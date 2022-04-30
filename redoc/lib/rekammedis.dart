@@ -82,13 +82,6 @@ class _RekamMedisState extends State<RekamMedis> {
                 SizedBox(
                   height: 50,
                 ),
-                Text(
-                  'Konsultasi',
-                  style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 16,
-                      color: Color(0xff000000)),
-                ),
                 SizedBox(
                   height: 20,
                 ),
