@@ -1,9 +1,33 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:redoc/pilihdokter.dart';
 import 'package:redoc/rekammedis.dart';
+import 'package:redoc/user_model.dart';
 
-class Utama extends StatelessWidget {
+class Utama extends StatefulWidget {
   const Utama({Key? key}) : super(key: key);
+
+  @override
+  State<Utama> createState() => _UtamaState();
+}
+
+class _UtamaState extends State<Utama> {
+  User? user = FirebaseAuth.instance.currentUser;
+  UserModel loginUser = UserModel();
+
+  @override
+  void initState() {
+    super.initState();
+    FirebaseFirestore.instance
+        .collection("users")
+        .doc(user!.uid)
+        .get()
+        .then((value) {
+      this.loginUser = UserModel.fromMap(value.data());
+      setState(() {});
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +52,7 @@ class Utama extends StatelessWidget {
                           fontSize: 12),
                     ),
                     Text(
-                      'Yudi Candra',
+                      '${loginUser.namaLengkap}',
                       style: TextStyle(
                           color: Color(0xff000000),
                           fontFamily: 'Poppins',
@@ -71,49 +95,34 @@ class Utama extends StatelessWidget {
               ),
             ),
             Container(
-                margin: const EdgeInsets.only(top: 10),
+                margin: const EdgeInsets.only(top: 40, bottom: 40),
                 child: Image(image: AssetImage('assets/line.png'))),
+            GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (context) => new PilihDokter()),
+                  );
+                },
+                child: Image(image: AssetImage('assets/informasi.png'))),
             Container(
-              margin: const EdgeInsets.only(top: 10),
-              child: SizedBox(
-                height: 100,
-                width: 350,
-                child: IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (context) => new PilihDokter()),
-                    );
-                  },
-                  icon: Image(image: AssetImage('assets/informasi.png')),
-                  iconSize: 200,
-                ),
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(top: 10),
-              child: SizedBox(
-                height: 100,
-                width: 350,
-                child: IconButton(
-                  onPressed: () {
+              margin: EdgeInsets.only(top: 20),
+              child: GestureDetector(
+                  onTap: () {
                     Navigator.push(
                       context,
                       new MaterialPageRoute(
                           builder: (context) => new RekamMedis()),
                     );
                   },
-                  icon: Image(image: AssetImage('assets/tentang.png')),
-                  iconSize: 200,
-                ),
-              ),
+                  child: Image(image: AssetImage('assets/tentang.png'))),
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                    margin: const EdgeInsets.only(top: 20, bottom: 10),
+                    margin: const EdgeInsets.only(top: 20, bottom: 20),
                     child: Text(
                       'Informasi Lainnya',
                       style: TextStyle(

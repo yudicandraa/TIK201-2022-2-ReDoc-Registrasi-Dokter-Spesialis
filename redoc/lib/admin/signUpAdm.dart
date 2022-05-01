@@ -1,41 +1,28 @@
 <<<<<<< HEAD
-import 'package:flutter/material.dart';
+import 'dart:math';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:redoc/admin/admin_model.dart';
 import 'package:redoc/admin/loginAdm.dart';
 import 'package:redoc/signUp.dart';
-import 'beranda.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class DaftarAkunAdm extends StatefulWidget {
+  const DaftarAkunAdm({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<DaftarAkunAdm> createState() => _DaftarAkunAdmState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  final TextEditingController emailController = new TextEditingController();
-  final TextEditingController passwordController = new TextEditingController();
+class _DaftarAkunAdmState extends State<DaftarAkunAdm> {
+  final TextEditingController email = TextEditingController();
+  final TextEditingController katasandi = TextEditingController();
+  final TextEditingController namaLengkap = TextEditingController();
+  final TextEditingController noHp = TextEditingController();
 
   final _auth = FirebaseAuth.instance;
-
-  void signIn(String email, String password) async {
-    await _auth
-        .signInWithEmailAndPassword(email: email, password: password)
-        .then((uid) => {
-              Fluttertoast.showToast(msg: "Login Berhasil"),
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const Home()),
-              )
-            })
-        .catchError((e) {
-      Fluttertoast.showToast(msg: e!.message);
-    });
-  }
-
-  // Firebase
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,12 +36,12 @@ class _LoginPageState extends State<LoginPage> {
               child: Image(image: AssetImage('assets/bolalogin.png')),
             ),
             Container(
-              margin: EdgeInsets.only(bottom: 20),
+              margin: EdgeInsets.only(bottom: 10),
               alignment: Alignment.topCenter,
               child: Image(image: AssetImage('assets/slmtdatang.png')),
             ),
             Container(
-              margin: EdgeInsets.only(top: 30),
+              margin: EdgeInsets.only(top: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -62,7 +49,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: Container(
                       height: 50,
                       width: 180,
-                      margin: EdgeInsets.only(bottom: 30),
+                      margin: EdgeInsets.only(bottom: 20),
                       //alignment: Alignment(0.0, -1.0),
                       child: RaisedButton(
                         shape: RoundedRectangleBorder(
@@ -97,7 +84,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: Container(
                       height: 50,
                       width: 180,
-                      margin: EdgeInsets.only(bottom: 30),
+                      margin: EdgeInsets.only(bottom: 20),
                       //alignment: Alignment(0.0, -1.0),
                       child: RaisedButton(
                         shape: RoundedRectangleBorder(
@@ -131,27 +118,56 @@ class _LoginPageState extends State<LoginPage> {
                 ],
               ),
             ),
-
             Container(
               margin: EdgeInsets.only(top: 10),
               child: Text(
-                'Login',
+                'Daftar',
                 style: TextStyle(fontFamily: 'Poppins', fontSize: 20),
               ),
             ),
             Container(
               //margin: EdgeInsets.only(top: 30),
               child: Text(
-                'Sebagai Pasien',
+                'Sebagai Admin',
                 style: TextStyle(fontFamily: 'PoppinsRegular', fontSize: 14),
               ),
             ),
             Container(
-              margin: const EdgeInsets.only(top: 20),
-              padding: new EdgeInsets.all(20.0),
+              margin: const EdgeInsets.only(top: 30),
+              padding: new EdgeInsets.only(right: 20.0, left: 20, bottom: 10),
               child: TextFormField(
-                controller: emailController,
-                keyboardType: TextInputType.emailAddress,
+                controller: namaLengkap,
+                onSaved: (value) {
+                  namaLengkap.text = value!;
+                },
+                decoration: InputDecoration(
+                  //fillColor: Color(0xffF1F0F5),
+                  //filled: true,
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide:
+                        BorderSide(color: Color(0xff989898), width: 2.0),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide:
+                        BorderSide(color: Color(0xff989898), width: 2.0),
+                  ),
+                  labelText: 'Nama Lengkap',
+                  labelStyle: TextStyle(
+                      color: Color(0xff989898),
+                      fontFamily: 'PoppinsRegular',
+                      fontSize: 14),
+                ),
+              ),
+            ),
+            Container(
+              padding: new EdgeInsets.only(right: 20.0, left: 20, bottom: 10),
+              child: TextFormField(
+                controller: email,
+                onSaved: (value) {
+                  email.text = value!;
+                },
                 decoration: InputDecoration(
                   //fillColor: Color(0xffF1F0F5),
                   //filled: true,
@@ -169,18 +185,45 @@ class _LoginPageState extends State<LoginPage> {
                   labelStyle: TextStyle(
                       color: Color(0xff989898),
                       fontFamily: 'PoppinsRegular',
-                      fontSize: 14),
+                      fontSize: 12),
                 ),
-                onSaved: (value) {
-                  emailController.text = value!;
-                },
               ),
             ),
             Container(
-              padding: new EdgeInsets.only(right: 20.0, left: 20, bottom: 20),
+              padding: new EdgeInsets.only(right: 20.0, left: 20, bottom: 10),
               child: TextFormField(
-                controller: passwordController,
-                keyboardType: TextInputType.visiblePassword,
+                controller: noHp,
+                onSaved: (value) {
+                  noHp.text = value!;
+                },
+                decoration: InputDecoration(
+                  //fillColor: Color(0xffF1F0F5),
+                  //filled: true,
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide:
+                        BorderSide(color: Color(0xff989898), width: 2.0),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide:
+                        BorderSide(color: Color(0xff989898), width: 2.0),
+                  ),
+                  labelText: 'Nomor Telepon',
+                  labelStyle: TextStyle(
+                      color: Color(0xff989898),
+                      fontFamily: 'PoppinsRegular',
+                      fontSize: 12),
+                ),
+              ),
+            ),
+            Container(
+              padding: new EdgeInsets.only(right: 20.0, left: 20, bottom: 10),
+              child: TextFormField(
+                controller: katasandi,
+                onSaved: (value) {
+                  katasandi.text = value!;
+                },
                 decoration: InputDecoration(
                   //fillColor: Color(0xffF1F0F5),
                   //filled: true,
@@ -200,9 +243,6 @@ class _LoginPageState extends State<LoginPage> {
                       fontFamily: 'PoppinsRegular',
                       fontSize: 12),
                 ),
-                onSaved: (value) {
-                  passwordController.text = value!;
-                },
               ),
             ),
             Row(
@@ -215,23 +255,11 @@ class _LoginPageState extends State<LoginPage> {
                         Navigator.push(
                           context,
                           new MaterialPageRoute(
-                              builder: (context) => new LoginAdm()),
+                              builder: (context) => new DaftarAkun()),
                         );
                       },
                       child: Text(
-                        'Login Sebagai Admin',
-                        style: TextStyle(
-                            color: Color(0xff000000),
-                            fontFamily: 'PoppinsRegular',
-                            fontSize: 12),
-                      ),
-                    )),
-                Container(
-                    margin: EdgeInsets.only(right: 25),
-                    child: TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        'Lupa Kata Sandi?',
+                        'Daftar Sebagai Pasien',
                         style: TextStyle(
                             color: Color(0xff000000),
                             fontFamily: 'PoppinsRegular',
@@ -258,11 +286,11 @@ class _LoginPageState extends State<LoginPage> {
                           borderRadius: BorderRadius.circular(30.0)),
                       color: Color(0xff17B3AC),
                       onPressed: () {
-                        signIn(emailController.text, passwordController.text);
+                        signUp(email.text, katasandi.text);
                       },
                       child: Center(
                         child: Text(
-                          'Masuk',
+                          'Daftar',
                           style: TextStyle(
                               color: Color(0xffffffff),
                               fontSize: 14,
@@ -276,7 +304,7 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Belum punya akun?',
+                  'Sudah Punya Akun?',
                   style: TextStyle(
                       color: Color(0xff000000),
                       fontFamily: 'PoppinsRegular',
@@ -287,11 +315,11 @@ class _LoginPageState extends State<LoginPage> {
                     Navigator.push(
                       context,
                       new MaterialPageRoute(
-                          builder: (context) => new DaftarAkun()),
+                          builder: (context) => new LoginAdm()),
                     );
                   },
                   child: Text(
-                    'Daftar Disini',
+                    'Login Disini',
                     style: TextStyle(
                         color: Color(0xff000000),
                         fontFamily: 'Poppins',
@@ -316,46 +344,75 @@ class _LoginPageState extends State<LoginPage> {
         ),
       )),
     );
+  }
+
+  void signUp(String email, String password) async {
+    await _auth
+        .createUserWithEmailAndPassword(email: email, password: password)
+        .then((value) => {postDetailsToFirestore()})
+        .catchError((e) {
+      Fluttertoast.showToast(msg: e!.message);
+    });
+  }
+
+  postDetailsToFirestore() async {
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    User? admin = _auth.currentUser;
+
+    AdminModel adminModel = AdminModel();
+    final noRM = Random().nextInt(100000);
+<<<<<<< Updated upstream
+    adminModel.email = admin!.email;
+    adminModel.uid = admin.uid;
+    adminModel.namaLengkap = namaLengkap.text;
+    adminModel.noHp = noHp.text;
+    adminModel.noPetugas = "000" + noRM.toString();
+=======
+    String noadmin = "000" + noRM.toString();
+    adminModel.email = admin!.email;
+    adminModel.uid = noadmin;
+    adminModel.namaLengkap = namaLengkap.text;
+    adminModel.noHp = noHp.text;
+    adminModel.noPetugas = noadmin;
+>>>>>>> Stashed changes
+
+    await firebaseFirestore
+        .collection("admin")
+        .doc(admin.uid)
+        .set(adminModel.toMap());
+
+    Fluttertoast.showToast(msg: "Pendaftaran Berhasil");
+    Navigator.pushAndRemoveUntil(
+        (context),
+        MaterialPageRoute(builder: (context) => const LoginAdm()),
+        (route) => false);
   }
 }
 =======
-import 'package:flutter/material.dart';
+import 'dart:math';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:redoc/admin/admin_model.dart';
 import 'package:redoc/admin/loginAdm.dart';
 import 'package:redoc/signUp.dart';
-import 'beranda.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class DaftarAkunAdm extends StatefulWidget {
+  const DaftarAkunAdm({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<DaftarAkunAdm> createState() => _DaftarAkunAdmState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  final TextEditingController emailController = new TextEditingController();
-  final TextEditingController passwordController = new TextEditingController();
+class _DaftarAkunAdmState extends State<DaftarAkunAdm> {
+  final TextEditingController email = TextEditingController();
+  final TextEditingController katasandi = TextEditingController();
+  final TextEditingController namaLengkap = TextEditingController();
+  final TextEditingController noHp = TextEditingController();
 
   final _auth = FirebaseAuth.instance;
-
-  void signIn(String email, String password) async {
-    await _auth
-        .signInWithEmailAndPassword(email: email, password: password)
-        .then((uid) => {
-              Fluttertoast.showToast(msg: "Login Berhasil"),
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const Home()),
-              )
-            })
-        .catchError((e) {
-      Fluttertoast.showToast(msg: e!.message);
-    });
-  }
-
-  // Firebase
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -369,12 +426,12 @@ class _LoginPageState extends State<LoginPage> {
               child: Image(image: AssetImage('assets/bolalogin.png')),
             ),
             Container(
-              margin: EdgeInsets.only(bottom: 20),
+              margin: EdgeInsets.only(bottom: 10),
               alignment: Alignment.topCenter,
               child: Image(image: AssetImage('assets/slmtdatang.png')),
             ),
             Container(
-              margin: EdgeInsets.only(top: 30),
+              margin: EdgeInsets.only(top: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -382,7 +439,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: Container(
                       height: 50,
                       width: 180,
-                      margin: EdgeInsets.only(bottom: 30),
+                      margin: EdgeInsets.only(bottom: 20),
                       //alignment: Alignment(0.0, -1.0),
                       child: RaisedButton(
                         shape: RoundedRectangleBorder(
@@ -417,7 +474,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: Container(
                       height: 50,
                       width: 180,
-                      margin: EdgeInsets.only(bottom: 30),
+                      margin: EdgeInsets.only(bottom: 20),
                       //alignment: Alignment(0.0, -1.0),
                       child: RaisedButton(
                         shape: RoundedRectangleBorder(
@@ -451,27 +508,56 @@ class _LoginPageState extends State<LoginPage> {
                 ],
               ),
             ),
-
             Container(
               margin: EdgeInsets.only(top: 10),
               child: Text(
-                'Login',
+                'Daftar',
                 style: TextStyle(fontFamily: 'Poppins', fontSize: 20),
               ),
             ),
             Container(
               //margin: EdgeInsets.only(top: 30),
               child: Text(
-                'Sebagai Pasien',
+                'Sebagai Admin',
                 style: TextStyle(fontFamily: 'PoppinsRegular', fontSize: 14),
               ),
             ),
             Container(
-              margin: const EdgeInsets.only(top: 20),
-              padding: new EdgeInsets.all(20.0),
+              margin: const EdgeInsets.only(top: 30),
+              padding: new EdgeInsets.only(right: 20.0, left: 20, bottom: 10),
               child: TextFormField(
-                controller: emailController,
-                keyboardType: TextInputType.emailAddress,
+                controller: namaLengkap,
+                onSaved: (value) {
+                  namaLengkap.text = value!;
+                },
+                decoration: InputDecoration(
+                  //fillColor: Color(0xffF1F0F5),
+                  //filled: true,
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide:
+                        BorderSide(color: Color(0xff989898), width: 2.0),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide:
+                        BorderSide(color: Color(0xff989898), width: 2.0),
+                  ),
+                  labelText: 'Nama Lengkap',
+                  labelStyle: TextStyle(
+                      color: Color(0xff989898),
+                      fontFamily: 'PoppinsRegular',
+                      fontSize: 14),
+                ),
+              ),
+            ),
+            Container(
+              padding: new EdgeInsets.only(right: 20.0, left: 20, bottom: 10),
+              child: TextFormField(
+                controller: email,
+                onSaved: (value) {
+                  email.text = value!;
+                },
                 decoration: InputDecoration(
                   //fillColor: Color(0xffF1F0F5),
                   //filled: true,
@@ -489,18 +575,45 @@ class _LoginPageState extends State<LoginPage> {
                   labelStyle: TextStyle(
                       color: Color(0xff989898),
                       fontFamily: 'PoppinsRegular',
-                      fontSize: 14),
+                      fontSize: 12),
                 ),
-                onSaved: (value) {
-                  emailController.text = value!;
-                },
               ),
             ),
             Container(
-              padding: new EdgeInsets.only(right: 20.0, left: 20, bottom: 20),
+              padding: new EdgeInsets.only(right: 20.0, left: 20, bottom: 10),
               child: TextFormField(
-                controller: passwordController,
-                keyboardType: TextInputType.visiblePassword,
+                controller: noHp,
+                onSaved: (value) {
+                  noHp.text = value!;
+                },
+                decoration: InputDecoration(
+                  //fillColor: Color(0xffF1F0F5),
+                  //filled: true,
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide:
+                        BorderSide(color: Color(0xff989898), width: 2.0),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide:
+                        BorderSide(color: Color(0xff989898), width: 2.0),
+                  ),
+                  labelText: 'Nomor Telepon',
+                  labelStyle: TextStyle(
+                      color: Color(0xff989898),
+                      fontFamily: 'PoppinsRegular',
+                      fontSize: 12),
+                ),
+              ),
+            ),
+            Container(
+              padding: new EdgeInsets.only(right: 20.0, left: 20, bottom: 10),
+              child: TextFormField(
+                controller: katasandi,
+                onSaved: (value) {
+                  katasandi.text = value!;
+                },
                 decoration: InputDecoration(
                   //fillColor: Color(0xffF1F0F5),
                   //filled: true,
@@ -520,9 +633,6 @@ class _LoginPageState extends State<LoginPage> {
                       fontFamily: 'PoppinsRegular',
                       fontSize: 12),
                 ),
-                onSaved: (value) {
-                  passwordController.text = value!;
-                },
               ),
             ),
             Row(
@@ -535,23 +645,11 @@ class _LoginPageState extends State<LoginPage> {
                         Navigator.push(
                           context,
                           new MaterialPageRoute(
-                              builder: (context) => new LoginAdm()),
+                              builder: (context) => new DaftarAkun()),
                         );
                       },
                       child: Text(
-                        'Login Sebagai Admin',
-                        style: TextStyle(
-                            color: Color(0xff000000),
-                            fontFamily: 'PoppinsRegular',
-                            fontSize: 12),
-                      ),
-                    )),
-                Container(
-                    margin: EdgeInsets.only(right: 25),
-                    child: TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        'Lupa Kata Sandi?',
+                        'Daftar Sebagai Pasien',
                         style: TextStyle(
                             color: Color(0xff000000),
                             fontFamily: 'PoppinsRegular',
@@ -578,11 +676,11 @@ class _LoginPageState extends State<LoginPage> {
                           borderRadius: BorderRadius.circular(30.0)),
                       color: Color(0xff17B3AC),
                       onPressed: () {
-                        signIn(emailController.text, passwordController.text);
+                        signUp(email.text, katasandi.text);
                       },
                       child: Center(
                         child: Text(
-                          'Masuk',
+                          'Daftar',
                           style: TextStyle(
                               color: Color(0xffffffff),
                               fontSize: 14,
@@ -596,7 +694,7 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Belum punya akun?',
+                  'Sudah Punya Akun?',
                   style: TextStyle(
                       color: Color(0xff000000),
                       fontFamily: 'PoppinsRegular',
@@ -607,11 +705,11 @@ class _LoginPageState extends State<LoginPage> {
                     Navigator.push(
                       context,
                       new MaterialPageRoute(
-                          builder: (context) => new DaftarAkun()),
+                          builder: (context) => new LoginAdm()),
                     );
                   },
                   child: Text(
-                    'Daftar Disini',
+                    'Login Disini',
                     style: TextStyle(
                         color: Color(0xff000000),
                         fontFamily: 'Poppins',
@@ -636,6 +734,40 @@ class _LoginPageState extends State<LoginPage> {
         ),
       )),
     );
+  }
+
+  void signUp(String email, String password) async {
+    await _auth
+        .createUserWithEmailAndPassword(email: email, password: password)
+        .then((value) => {postDetailsToFirestore()})
+        .catchError((e) {
+      Fluttertoast.showToast(msg: e!.message);
+    });
+  }
+
+  postDetailsToFirestore() async {
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    User? admin = _auth.currentUser;
+
+    AdminModel adminModel = AdminModel();
+    final noRM = Random().nextInt(100000);
+    String noadmin = "000" + noRM.toString();
+    adminModel.email = admin!.email;
+    adminModel.uid = noadmin;
+    adminModel.namaLengkap = namaLengkap.text;
+    adminModel.noHp = noHp.text;
+    adminModel.noPetugas = noadmin;
+
+    await firebaseFirestore
+        .collection("admin")
+        .doc(admin.uid)
+        .set(adminModel.toMap());
+
+    Fluttertoast.showToast(msg: "Pendaftaran Berhasil");
+    Navigator.pushAndRemoveUntil(
+        (context),
+        MaterialPageRoute(builder: (context) => const LoginAdm()),
+        (route) => false);
   }
 }
 >>>>>>> 1904111010047

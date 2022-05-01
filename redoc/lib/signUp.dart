@@ -1,14 +1,31 @@
+import 'dart:math';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:redoc/login.dart';
+
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:redoc/admin/signUpAdm.dart';
+import 'package:redoc/user_model.dart';
 import 'beranda.dart';
 
-class DaftarAkun extends StatelessWidget {
+class DaftarAkun extends StatefulWidget {
   const DaftarAkun({Key? key}) : super(key: key);
 
   @override
+  State<DaftarAkun> createState() => _DaftarAkunState();
+}
+
+class _DaftarAkunState extends State<DaftarAkun> {
+  final TextEditingController email = TextEditingController();
+  final TextEditingController katasandi = TextEditingController();
+  final TextEditingController namaLengkap = TextEditingController();
+  final TextEditingController noHp = TextEditingController();
+
+  final _auth = FirebaseAuth.instance;
+  @override
   Widget build(BuildContext context) {
-    TextEditingController email = TextEditingController();
-    TextEditingController katasandi = TextEditingController();
     return Scaffold(
       body: Container(
           child: Container(
@@ -103,13 +120,27 @@ class DaftarAkun extends StatelessWidget {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 20),
-              child: Image(image: AssetImage('assets/ataudaftardisini.png')),
+              margin: EdgeInsets.only(top: 10),
+              child: Text(
+                'Daftar',
+                style: TextStyle(fontFamily: 'Poppins', fontSize: 20),
+              ),
+            ),
+            Container(
+              //margin: EdgeInsets.only(top: 30),
+              child: Text(
+                'Sebagai Pasien',
+                style: TextStyle(fontFamily: 'PoppinsRegular', fontSize: 14),
+              ),
             ),
             Container(
               margin: const EdgeInsets.only(top: 30),
               padding: new EdgeInsets.only(right: 20.0, left: 20, bottom: 10),
               child: TextFormField(
+                controller: namaLengkap,
+                onSaved: (value) {
+                  namaLengkap.text = value!;
+                },
                 decoration: InputDecoration(
                   //fillColor: Color(0xffF1F0F5),
                   //filled: true,
@@ -135,6 +166,9 @@ class DaftarAkun extends StatelessWidget {
               padding: new EdgeInsets.only(right: 20.0, left: 20, bottom: 10),
               child: TextFormField(
                 controller: email,
+                onSaved: (value) {
+                  email.text = value!;
+                },
                 decoration: InputDecoration(
                   //fillColor: Color(0xffF1F0F5),
                   //filled: true,
@@ -159,6 +193,10 @@ class DaftarAkun extends StatelessWidget {
             Container(
               padding: new EdgeInsets.only(right: 20.0, left: 20, bottom: 10),
               child: TextFormField(
+                controller: noHp,
+                onSaved: (value) {
+                  noHp.text = value!;
+                },
                 decoration: InputDecoration(
                   //fillColor: Color(0xffF1F0F5),
                   //filled: true,
@@ -184,6 +222,9 @@ class DaftarAkun extends StatelessWidget {
               padding: new EdgeInsets.only(right: 20.0, left: 20, bottom: 10),
               child: TextFormField(
                 controller: katasandi,
+                onSaved: (value) {
+                  katasandi.text = value!;
+                },
                 decoration: InputDecoration(
                   //fillColor: Color(0xffF1F0F5),
                   //filled: true,
@@ -211,7 +252,13 @@ class DaftarAkun extends StatelessWidget {
                 Container(
                     margin: EdgeInsets.only(left: 25),
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                              builder: (context) => new DaftarAkunAdm()),
+                        );
+                      },
                       child: Text(
                         'Daftar Sebagai Admin',
                         style: TextStyle(
@@ -240,11 +287,7 @@ class DaftarAkun extends StatelessWidget {
                           borderRadius: BorderRadius.circular(30.0)),
                       color: Color(0xff17B3AC),
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                              builder: (context) => new LoginPage()),
-                        );
+                        signUp(email.text, katasandi.text);
                       },
                       child: Center(
                         child: Text(
@@ -302,5 +345,54 @@ class DaftarAkun extends StatelessWidget {
         ),
       )),
     );
+  }
+
+  void signUp(String email, String password) async {
+    await _auth
+        .createUserWithEmailAndPassword(email: email, password: password)
+        .then((value) => {postDetailsToFirestore()})
+        .catchError((e) {
+      Fluttertoast.showToast(msg: e!.message);
+    });
+  }
+
+  postDetailsToFirestore() async {
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    User? user = _auth.currentUser;
+
+    UserModel userModel = UserModel();
+    final noRM = Random().nextInt(100000);
+<<<<<<< HEAD
+<<<<<<< Updated upstream
+=======
+    String noRekamMedis = "000" + noRM.toString();
+>>>>>>> Stashed changes
+=======
+    String noRekamMedis = "000" + noRM.toString();
+>>>>>>> 1904111010047
+    userModel.email = user!.email;
+    userModel.uid = user.uid;
+    userModel.namaLengkap = namaLengkap.text;
+    userModel.noHp = noHp.text;
+<<<<<<< HEAD
+<<<<<<< Updated upstream
+    userModel.rekamMedis = "000" + noRM.toString();
+=======
+    userModel.rekamMedis = noRekamMedis;
+>>>>>>> Stashed changes
+=======
+    userModel.rekamMedis = noRekamMedis;
+>>>>>>> 1904111010047
+
+    await firebaseFirestore
+        .collection("users")
+        .doc(user.uid)
+        .set(userModel.toMap());
+
+    Fluttertoast.showToast(msg: "Pendaftaran Berhasil");
+    Navigator.pushAndRemoveUntil(
+        (context),
+        MaterialPageRoute(builder: (context) => const LoginPage()),
+        (route) => false);
   }
 }
