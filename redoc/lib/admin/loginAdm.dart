@@ -1,18 +1,18 @@
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:redoc/admin/loginAdm.dart';
-import 'package:redoc/signUp.dart';
-import 'beranda.dart';
+import 'package:redoc/admin/homeAdmin.dart';
+import 'package:redoc/login.dart';
+import 'package:redoc/admin/signUpAdm.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class LoginAdm extends StatefulWidget {
+  const LoginAdm({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<LoginAdm> createState() => _LoginAdmState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginAdmState extends State<LoginAdm> {
   final TextEditingController emailController = new TextEditingController();
   final TextEditingController passwordController = new TextEditingController();
 
@@ -25,15 +25,13 @@ class _LoginPageState extends State<LoginPage> {
               Fluttertoast.showToast(msg: "Login Berhasil"),
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const Home()),
+                MaterialPageRoute(builder: (context) => const HomeAdmin()),
               )
             })
         .catchError((e) {
       Fluttertoast.showToast(msg: e!.message);
     });
   }
-
-  // Firebase
 
   @override
   Widget build(BuildContext context) {
@@ -141,8 +139,8 @@ class _LoginPageState extends State<LoginPage> {
             Container(
               //margin: EdgeInsets.only(top: 30),
               child: Text(
-                'Sebagai Pasien',
-                style: TextStyle(fontFamily: 'PoppinsRegular', fontSize: 14),
+                'Sebagai Admin',
+                style: TextStyle(fontFamily: 'PoppinsRegular', fontSize: 12),
               ),
             ),
             Container(
@@ -179,6 +177,9 @@ class _LoginPageState extends State<LoginPage> {
               padding: new EdgeInsets.only(right: 20.0, left: 20, bottom: 20),
               child: TextFormField(
                 controller: passwordController,
+                onSaved: (value) {
+                  passwordController.text = value!;
+                },
                 keyboardType: TextInputType.visiblePassword,
                 decoration: InputDecoration(
                   //fillColor: Color(0xffF1F0F5),
@@ -199,9 +200,6 @@ class _LoginPageState extends State<LoginPage> {
                       fontFamily: 'PoppinsRegular',
                       fontSize: 12),
                 ),
-                onSaved: (value) {
-                  passwordController.text = value!;
-                },
               ),
             ),
             Row(
@@ -214,11 +212,11 @@ class _LoginPageState extends State<LoginPage> {
                         Navigator.push(
                           context,
                           new MaterialPageRoute(
-                              builder: (context) => new LoginAdm()),
+                              builder: (context) => new LoginPage()),
                         );
                       },
                       child: Text(
-                        'Login Sebagai Admin',
+                        'Login Sebagai Pasien',
                         style: TextStyle(
                             color: Color(0xff000000),
                             fontFamily: 'PoppinsRegular',
@@ -286,7 +284,7 @@ class _LoginPageState extends State<LoginPage> {
                     Navigator.push(
                       context,
                       new MaterialPageRoute(
-                          builder: (context) => new DaftarAkun()),
+                          builder: (context) => new DaftarAkunAdm()),
                     );
                   },
                   child: Text(

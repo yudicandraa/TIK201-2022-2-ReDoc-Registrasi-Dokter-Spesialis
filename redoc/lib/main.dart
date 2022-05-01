@@ -1,9 +1,10 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-
 import 'login.dart';
 
-void main() async {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -21,35 +22,35 @@ class MyHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xffffffff),
       body: Center(
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
+          const SizedBox(
               height: 364,
               width: 364,
               child: Image(image: AssetImage('assets/logo.png'))),
-          SizedBox(
-            height: 80,
+          const SizedBox(
+            height: 150,
           ),
           Center(
             child: Container(
               height: 40,
               width: 180,
-              margin: EdgeInsets.only(bottom: 25),
+              margin: const EdgeInsets.only(bottom: 10),
               //alignment: Alignment(0.0, -1.0),
               child: RaisedButton(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0)),
-                color: Color(0xff17B3AC),
+                color: const Color(0xff17B3AC),
                 onPressed: () {
                   Navigator.push(
                     context,
-                    new MaterialPageRoute(
-                        builder: (context) => new SignInPage()),
+                    MaterialPageRoute(builder: (context) => const LoginPage()),
                   );
                 },
-                child: Center(
+                child: const Center(
                   child: Text(
                     'Mulai',
                     style: TextStyle(
@@ -60,6 +61,10 @@ class MyHome extends StatelessWidget {
                 ),
               ),
             ),
+          ),
+          Text(
+            'Kepuasan Anda adalah Kebanggaan Kami',
+            style: TextStyle(fontFamily: 'PoppinsRegular', fontSize: 12),
           )
         ],
       )),
