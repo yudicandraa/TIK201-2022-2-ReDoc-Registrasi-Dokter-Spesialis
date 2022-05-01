@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:redoc/pilihdokter.dart';
+import 'package:redoc/dokter/dokter_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PenyakitBedah extends StatefulWidget {
   const PenyakitBedah({Key? key}) : super(key: key);
@@ -9,6 +11,21 @@ class PenyakitBedah extends StatefulWidget {
 }
 
 class _PenyakitBedahState extends State<PenyakitBedah> {
+  DokterModel daftarDokter = DokterModel();
+
+  @override
+  void initState() {
+    super.initState();
+    FirebaseFirestore.instance
+        .collection("bedah")
+        .doc("paru")
+        .get()
+        .then((value) {
+      this.daftarDokter = DokterModel.fromMap(value.data());
+
+      setState(() {});
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -115,7 +132,7 @@ class _PenyakitBedahState extends State<PenyakitBedah> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Nama Dokter",
+                          '${daftarDokter.nama}',
                           style: TextStyle(
                               color: Color(0xffffffff),
                               fontFamily: "Poppins",
@@ -138,7 +155,7 @@ class _PenyakitBedahState extends State<PenyakitBedah> {
                         Container(
                           margin: EdgeInsets.only(top: 10),
                           child: Text(
-                            '- ',
+                            '${daftarDokter.jadwal}',
                             style: TextStyle(
                                 color: Color(0xffffffff),
                                 fontFamily: 'PoppinsRegular',
