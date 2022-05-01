@@ -362,12 +362,27 @@ class _DaftarAkunState extends State<DaftarAkun> {
 
     UserModel userModel = UserModel();
     final noRM = Random().nextInt(100000);
+<<<<<<< HEAD
+<<<<<<< Updated upstream
+=======
     String noRekamMedis = "000" + noRM.toString();
+>>>>>>> Stashed changes
+=======
+    String noRekamMedis = "000" + noRM.toString();
+>>>>>>> 1904111010047
     userModel.email = user!.email;
     userModel.uid = user.uid;
     userModel.namaLengkap = namaLengkap.text;
     userModel.noHp = noHp.text;
+<<<<<<< HEAD
+<<<<<<< Updated upstream
+    userModel.rekamMedis = "000" + noRM.toString();
+=======
     userModel.rekamMedis = noRekamMedis;
+>>>>>>> Stashed changes
+=======
+    userModel.rekamMedis = noRekamMedis;
+>>>>>>> 1904111010047
 
     await firebaseFirestore
         .collection("users")
