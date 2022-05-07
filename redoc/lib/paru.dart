@@ -162,7 +162,7 @@ class _PenyakitParuState extends State<PenyakitParu> {
                             style: TextStyle(
                                 color: Color(0xffffffff),
                                 fontFamily: 'PoppinsRegular',
-                                fontSize: 13),
+                                fontSize: 12),
                           ),
                         )
                       ],

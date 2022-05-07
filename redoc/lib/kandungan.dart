@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:redoc/nomorAntrian.dart';
 import 'package:redoc/pilihdokter.dart';
 import 'package:redoc/dokter/dokter_model.dart';
+
 class PenyakitKandungan extends StatefulWidget {
   const PenyakitKandungan({Key? key}) : super(key: key);
 
@@ -16,8 +18,8 @@ class _PenyakitKandunganState extends State<PenyakitKandungan> {
   void initState() {
     super.initState();
     FirebaseFirestore.instance
-        .collection("kandungan")
-        .doc("paru")
+        .collection("dokter")
+        .doc("kandungan")
         .get()
         .then((value) {
       this.daftarDokter = DokterModel.fromMap(value.data());
@@ -25,6 +27,7 @@ class _PenyakitKandunganState extends State<PenyakitKandungan> {
       setState(() {});
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -138,7 +141,7 @@ class _PenyakitKandunganState extends State<PenyakitKandungan> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                        '${daftarDokter.nama}',
+                          '${daftarDokter.nama}',
                           style: TextStyle(
                               color: Color(0xffffffff),
                               fontFamily: "Poppins",
@@ -165,7 +168,7 @@ class _PenyakitKandunganState extends State<PenyakitKandungan> {
                             style: TextStyle(
                                 color: Color(0xffffffff),
                                 fontFamily: 'PoppinsRegular',
-                                fontSize: 16),
+                                fontSize: 12),
                           ),
                         )
                       ],
