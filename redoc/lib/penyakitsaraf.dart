@@ -11,14 +11,14 @@ class PenyakitSaraf extends StatefulWidget {
 }
 
 class _PenyakitSarafState extends State<PenyakitSaraf> {
- DokterModel daftarDokter = DokterModel();
+  DokterModel daftarDokter = DokterModel();
 
   @override
   void initState() {
     super.initState();
     FirebaseFirestore.instance
-        .collection("saraf")
-        .doc("paru")
+        .collection("dokter")
+        .doc("saraf")
         .get()
         .then((value) {
       this.daftarDokter = DokterModel.fromMap(value.data());
@@ -26,6 +26,7 @@ class _PenyakitSarafState extends State<PenyakitSaraf> {
       setState(() {});
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -159,7 +160,7 @@ class _PenyakitSarafState extends State<PenyakitSaraf> {
                             style: TextStyle(
                                 color: Color(0xffffffff),
                                 fontFamily: 'PoppinsRegular',
-                                fontSize: 16),
+                                fontSize: 12),
                           ),
                         )
                       ],

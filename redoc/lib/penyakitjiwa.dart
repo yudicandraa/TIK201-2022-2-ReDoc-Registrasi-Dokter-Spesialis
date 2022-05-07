@@ -17,8 +17,8 @@ class _PenyakitJiwaState extends State<PenyakitJiwa> {
   void initState() {
     super.initState();
     FirebaseFirestore.instance
-        .collection("penyakitjiwa")
-        .doc("paru")
+        .collection("dokter")
+        .doc("penyakitjiwa")
         .get()
         .then((value) {
       this.daftarDokter = DokterModel.fromMap(value.data());
@@ -26,6 +26,7 @@ class _PenyakitJiwaState extends State<PenyakitJiwa> {
       setState(() {});
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,7 +62,7 @@ class _PenyakitJiwaState extends State<PenyakitJiwa> {
               children: [
                 Container(
                   margin: EdgeInsets.only(bottom: 20),
-                  child: Image(image: AssetImage('assets/Jiwa2.png')),
+                  child: Image(image: AssetImage('assets/jiwa2.png')),
                 ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -159,7 +160,7 @@ class _PenyakitJiwaState extends State<PenyakitJiwa> {
                             style: TextStyle(
                                 color: Color(0xffffffff),
                                 fontFamily: 'PoppinsRegular',
-                                fontSize: 16),
+                                fontSize: 12),
                           ),
                         )
                       ],

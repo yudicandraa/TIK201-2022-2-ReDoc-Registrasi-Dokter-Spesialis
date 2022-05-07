@@ -17,8 +17,8 @@ class _PenyakitDalamState extends State<PenyakitDalam> {
   void initState() {
     super.initState();
     FirebaseFirestore.instance
-        .collection("penyakitdalam")
-        .doc("paru")
+        .collection("dokter")
+        .doc("penyakitdalam")
         .get()
         .then((value) {
       this.daftarDokter = DokterModel.fromMap(value.data());
@@ -26,6 +26,7 @@ class _PenyakitDalamState extends State<PenyakitDalam> {
       setState(() {});
     });
   }
+
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xff17B3AC),
@@ -158,7 +159,7 @@ class _PenyakitDalamState extends State<PenyakitDalam> {
                             style: TextStyle(
                                 color: Color(0xffffffff),
                                 fontFamily: 'PoppinsRegular',
-                                fontSize: 16),
+                                fontSize: 12),
                           ),
                         )
                       ],
