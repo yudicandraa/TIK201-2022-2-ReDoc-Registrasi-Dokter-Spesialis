@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:redoc/antrian/antrianKandungan.dart';
 import 'package:redoc/dokter/dokterTerpilih.dart';
 import 'package:redoc/nomorAntrian.dart';
 import 'package:redoc/pilihdokter.dart';
 import 'package:redoc/dokter/dokter_model.dart';
 import 'package:redoc/user_model.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class PenyakitKandungan extends StatefulWidget {
   const PenyakitKandungan({Key? key}) : super(key: key);
@@ -130,7 +132,7 @@ class _PenyakitKandunganState extends State<PenyakitKandungan> {
                                       context,
                                       new MaterialPageRoute(
                                           builder: (context) =>
-                                              new NomorAntrian()),
+                                              new AntrianKandungan()),
                                     );
                                   },
                                   child: Center(
@@ -202,19 +204,22 @@ class _PenyakitKandunganState extends State<PenyakitKandungan> {
 
     DokterTerpilih dokterTerpilih = DokterTerpilih();
 
-    dokterTerpilih.antrian = 0;
-    dokterTerpilih.dokter = {
-      'jadwal': daftarDokter.jadwal,
-      'nama': daftarDokter.nama
-    };
-    dokterTerpilih.pasien = {
-      'nama': loginUser.namaLengkap,
-      'rekamMedis': loginUser.rekamMedis
-    };
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
+    var batch = firestore.batch();
 
-    await firebaseFirestore
-        .collection("dokterpilih")
-        .doc(user!.uid)
-        .set(dokterTerpilih.toMap());
+    var storyRef = firestore.collection('dokterkandungan').doc(user!.uid);
+
+    batch.set(
+        storyRef,
+        {
+          'antrian': FieldValue.increment(1),
+          'dokter': {'jadwal': daftarDokter.jadwal, 'nama': daftarDokter.nama},
+          'pasien': {
+            'nama': loginUser.namaLengkap,
+            'rekamMedis': loginUser.rekamMedis
+          },
+        },
+        SetOptions(merge: true));
+    batch.commit();
   }
 }
