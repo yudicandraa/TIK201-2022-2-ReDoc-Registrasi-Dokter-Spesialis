@@ -1,18 +1,36 @@
-import 'dart:ui';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:redoc/beranda.dart';
+import 'package:redoc/dokter/dokterTerpilih.dart';
 import 'package:redoc/pilihdokter.dart';
-import 'package:redoc/utama.dart';
 
-class NomorAntrian extends StatefulWidget {
-  const NomorAntrian({Key? key}) : super(key: key);
+class AntrianKandungan extends StatefulWidget {
+  const AntrianKandungan({Key? key}) : super(key: key);
 
   @override
-  State<NomorAntrian> createState() => _NomorAntrianState();
+  State<AntrianKandungan> createState() => _AntrianKandunganState();
 }
 
-class _NomorAntrianState extends State<NomorAntrian> {
+class _AntrianKandunganState extends State<AntrianKandungan> {
+  final _auth = FirebaseAuth.instance;
+  DokterTerpilih daftarDokter = DokterTerpilih();
+
+  User? user = FirebaseAuth.instance.currentUser;
+  @override
+  void initState() {
+    super.initState();
+    FirebaseFirestore.instance
+        .collection("dokterkandungan")
+        .doc(user!.uid)
+        .get()
+        .then((value) {
+      this.daftarDokter = DokterTerpilih.fromMap(value.data());
+      print(daftarDokter);
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,7 +70,19 @@ class _NomorAntrianState extends State<NomorAntrian> {
             ),
             Column(
               children: [
-                Image(image: AssetImage('assets/lingkaran.png')),
+                Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Image(image: AssetImage('assets/lingkaran.png')),
+                    Text(
+                      '${daftarDokter.antrian}',
+                      style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 48,
+                          color: Color(0xff35858B)),
+                    )
+                  ],
+                ),
                 SizedBox(
                   height: 20,
                 ),

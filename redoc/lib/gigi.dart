@@ -127,7 +127,7 @@ class _PenyakitGigiState extends State<PenyakitGigi> {
                       ],
                     ),
                     SizedBox(
-                      width: 30,
+                      width: 10,
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
