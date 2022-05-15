@@ -112,7 +112,9 @@ class _PenyakitGiziState extends State<PenyakitGizi> {
                                       borderRadius:
                                           BorderRadius.circular(30.0)),
                                   color: Color(0xffffffff),
-                                  onPressed: () {},
+                                  onPressed: () {upData();
+                                    Fluttertoast.showToast(
+                                        msg: "Nomor antrian diambil");},
                                   child: Center(
                                     child: Text(
                                       'Pilih Dokter',
@@ -174,6 +176,40 @@ class _PenyakitGiziState extends State<PenyakitGizi> {
         ),
       ),
     );
+  }
+  upData() async {
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    User? user = _auth.currentUser;
+
+    DokterTerpilih dokterTerpilih = DokterTerpilih();
+
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
+    List l = [];
+    await FirebaseFirestore.instance
+        .collection('doktergizi')
+        .orderBy("waktu")
+        .limitToLast(1)
+        .get()
+        .then((value) => value.docs.forEach((element) {
+              final data = element.data();
+              l.add(data['antrian']);
+              print(l);
+            }));
+
+    var batch = firestore.batch();
+
+    var storyRef = firestore.collection('doktergizi').doc(user!.uid).set({
+      'antrian': l[0] + 1,
+      'dokter': {'jadwal': daftarDokter.jadwal, 'nama': daftarDokter.nama},
+      'pasien': {
+        'nama': loginUser.namaLengkap,
+        'rekamMedis': loginUser.rekamMedis
+      },
+      'waktu': FieldValue.serverTimestamp()
+    });
+
+    //final akhir = result + 1;
+    //print(akhir);
   }
 }
 =======
