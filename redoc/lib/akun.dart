@@ -94,11 +94,7 @@ class _AkunState extends State<Akun> {
                             borderRadius: BorderRadius.circular(30.0)),
                         color: Color(0xff17B3AC),
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            new MaterialPageRoute(
-                                builder: (context) => new LoginPage()),
-                          );
+                          logout(context);
                         },
                         child: Center(
                           child: Text(

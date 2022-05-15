@@ -4,9 +4,15 @@ class UserModel {
   String? email;
   String? noHp;
   String? rekamMedis;
+  String? dataRM;
 
   UserModel(
-      {this.uid, this.email, this.namaLengkap, this.noHp, this.rekamMedis});
+      {this.uid,
+      this.email,
+      this.namaLengkap,
+      this.noHp,
+      this.rekamMedis,
+      this.dataRM});
 
   factory UserModel.fromMap(map) {
     return UserModel(
@@ -15,6 +21,7 @@ class UserModel {
       namaLengkap: map['namaLengkap'],
       noHp: map['noHp'],
       rekamMedis: map['rekamMedis'],
+      dataRM: map['dataRM'],
     );
   }
 
@@ -25,6 +32,7 @@ class UserModel {
       'namaLengkap': namaLengkap,
       'noHp': noHp,
       'rekamMedis': rekamMedis,
+      'dataRM': dataRM,
     };
   }
 }

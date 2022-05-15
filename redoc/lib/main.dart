@@ -61,6 +61,10 @@ class MyHome extends StatelessWidget {
                 ),
               ),
             ),
+          ),
+          Text(
+            'Kepuasan Anda adalah Kebanggaan Kami',
+            style: TextStyle(fontFamily: 'PoppinsRegular', fontSize: 12),
           )
         ],
       )),

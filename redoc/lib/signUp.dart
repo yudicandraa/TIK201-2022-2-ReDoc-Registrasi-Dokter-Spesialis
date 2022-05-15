@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:redoc/login.dart';
 
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:redoc/admin/signUpAdm.dart';
 import 'package:redoc/user_model.dart';
 import 'beranda.dart';
 
@@ -119,8 +120,18 @@ class _DaftarAkunState extends State<DaftarAkun> {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 20),
-              child: Image(image: AssetImage('assets/ataudaftardisini.png')),
+              margin: EdgeInsets.only(top: 10),
+              child: Text(
+                'Daftar',
+                style: TextStyle(fontFamily: 'Poppins', fontSize: 20),
+              ),
+            ),
+            Container(
+              //margin: EdgeInsets.only(top: 30),
+              child: Text(
+                'Sebagai Pasien',
+                style: TextStyle(fontFamily: 'PoppinsRegular', fontSize: 14),
+              ),
             ),
             Container(
               margin: const EdgeInsets.only(top: 30),
@@ -241,7 +252,13 @@ class _DaftarAkunState extends State<DaftarAkun> {
                 Container(
                     margin: EdgeInsets.only(left: 25),
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                              builder: (context) => new DaftarAkunAdm()),
+                        );
+                      },
                       child: Text(
                         'Daftar Sebagai Admin',
                         style: TextStyle(
@@ -345,11 +362,12 @@ class _DaftarAkunState extends State<DaftarAkun> {
 
     UserModel userModel = UserModel();
     final noRM = Random().nextInt(100000);
+    String noRekamMedis = "000" + noRM.toString();
     userModel.email = user!.email;
     userModel.uid = user.uid;
     userModel.namaLengkap = namaLengkap.text;
     userModel.noHp = noHp.text;
-    userModel.rekamMedis = noRM.toString();
+    userModel.rekamMedis = noRekamMedis;
 
     await firebaseFirestore
         .collection("users")
