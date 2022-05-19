@@ -96,7 +96,7 @@ class _UtamaState extends State<Utama> {
               ),
             ),
             Container(
-                margin: const EdgeInsets.only(top: 40, bottom: 20),
+                margin: const EdgeInsets.only(top: 40, bottom: 10),
                 child: Image(image: AssetImage('assets/line.png'))),
             Container(
               margin: EdgeInsets.only(top: 20),

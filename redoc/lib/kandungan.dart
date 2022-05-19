@@ -1,10 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
-=======
 import 'package:fluttertoast/fluttertoast.dart';
->>>>>>> 1904111010056
 import 'package:redoc/antrian/antrianKandungan.dart';
 import 'package:redoc/dokter/dokterTerpilih.dart';
 import 'package:redoc/nomorAntrian.dart';
@@ -12,10 +9,7 @@ import 'package:redoc/pilihdokter.dart';
 import 'package:redoc/dokter/dokter_model.dart';
 import 'package:redoc/user_model.dart';
 import 'package:firebase_core/firebase_core.dart';
-<<<<<<< HEAD
-=======
 import 'package:redoc/variabel.dart';
->>>>>>> 1904111010056
 
 class PenyakitKandungan extends StatefulWidget {
   const PenyakitKandungan({Key? key}) : super(key: key);
@@ -29,10 +23,7 @@ class _PenyakitKandunganState extends State<PenyakitKandungan> {
   DokterModel daftarDokter = DokterModel();
   UserModel loginUser = UserModel();
   User? user = FirebaseAuth.instance.currentUser;
-<<<<<<< HEAD
-=======
 
->>>>>>> 1904111010056
   @override
   void initState() {
     super.initState();
@@ -50,10 +41,7 @@ class _PenyakitKandunganState extends State<PenyakitKandungan> {
           .then((value) {
         this.loginUser = UserModel.fromMap(value.data());
       });
-<<<<<<< HEAD
-=======
 
->>>>>>> 1904111010056
       setState(() {});
     });
   }
@@ -144,11 +132,8 @@ class _PenyakitKandunganState extends State<PenyakitKandungan> {
                                   color: Color(0xffffffff),
                                   onPressed: () {
                                     upData();
-<<<<<<< HEAD
-=======
                                     Fluttertoast.showToast(
                                         msg: "Nomor antrian diambil");
->>>>>>> 1904111010056
                                     Navigator.push(
                                       context,
                                       new MaterialPageRoute(
@@ -226,24 +211,6 @@ class _PenyakitKandunganState extends State<PenyakitKandungan> {
     DokterTerpilih dokterTerpilih = DokterTerpilih();
 
     final FirebaseFirestore firestore = FirebaseFirestore.instance;
-<<<<<<< HEAD
-    var batch = firestore.batch();
-
-    var storyRef = firestore.collection('dokterkandungan').doc(user!.uid);
-
-    batch.set(
-        storyRef,
-        {
-          'antrian': FieldValue.increment(1),
-          'dokter': {'jadwal': daftarDokter.jadwal, 'nama': daftarDokter.nama},
-          'pasien': {
-            'nama': loginUser.namaLengkap,
-            'rekamMedis': loginUser.rekamMedis
-          },
-        },
-        SetOptions(merge: true));
-    batch.commit();
-=======
     List l = [];
     await FirebaseFirestore.instance
         .collection('dokterkandungan')
@@ -265,11 +232,11 @@ class _PenyakitKandunganState extends State<PenyakitKandungan> {
         'nama': loginUser.namaLengkap,
         'rekamMedis': loginUser.rekamMedis
       },
+      'status': "Menunggu",
       'waktu': FieldValue.serverTimestamp()
     });
 
     //final akhir = result + 1;
     //print(akhir);
->>>>>>> 1904111010056
   }
 }

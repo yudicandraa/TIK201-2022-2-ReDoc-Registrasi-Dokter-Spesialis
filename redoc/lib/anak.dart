@@ -1,7 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:redoc/antrian/antrianAnak.dart';
+import 'package:redoc/dokter/dokterTerpilih.dart';
 import 'package:redoc/pilihdokter.dart';
 import 'package:redoc/dokter/dokter_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:redoc/user_model.dart';
 
 class PenyakitAnak extends StatefulWidget {
   const PenyakitAnak({Key? key}) : super(key: key);
@@ -12,7 +17,10 @@ class PenyakitAnak extends StatefulWidget {
 
 class _PenyakitAnakState extends State<PenyakitAnak> {
   DokterModel daftarDokter = DokterModel();
+  final _auth = FirebaseAuth.instance;
 
+  UserModel loginUser = UserModel();
+  User? user = FirebaseAuth.instance.currentUser;
   @override
   void initState() {
     super.initState();
@@ -22,7 +30,13 @@ class _PenyakitAnakState extends State<PenyakitAnak> {
         .get()
         .then((value) {
       this.daftarDokter = DokterModel.fromMap(value.data());
-
+      FirebaseFirestore.instance
+          .collection("users")
+          .doc(user!.uid)
+          .get()
+          .then((value) {
+        this.loginUser = UserModel.fromMap(value.data());
+      });
       setState(() {});
     });
   }
@@ -111,9 +125,17 @@ class _PenyakitAnakState extends State<PenyakitAnak> {
                                       borderRadius:
                                           BorderRadius.circular(30.0)),
                                   color: Color(0xffffffff),
-                                  onPressed: () {upData();
+                                  onPressed: () {
+                                    upData();
                                     Fluttertoast.showToast(
-                                        msg: "Nomor antrian diambil");},
+                                        msg: "Nomor antrian diambil");
+                                    Navigator.push(
+                                      context,
+                                      new MaterialPageRoute(
+                                          builder: (context) =>
+                                              new AntrianAnak()),
+                                    );
+                                  },
                                   child: Center(
                                     child: Text(
                                       'Pilih Dokter',
@@ -176,6 +198,7 @@ class _PenyakitAnakState extends State<PenyakitAnak> {
       ),
     );
   }
+
   upData() async {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     User? user = _auth.currentUser;
@@ -204,6 +227,7 @@ class _PenyakitAnakState extends State<PenyakitAnak> {
         'nama': loginUser.namaLengkap,
         'rekamMedis': loginUser.rekamMedis
       },
+      'status': "Menunggu",
       'waktu': FieldValue.serverTimestamp()
     });
 
