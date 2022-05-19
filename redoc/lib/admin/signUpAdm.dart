@@ -360,11 +360,12 @@ class _DaftarAkunAdmState extends State<DaftarAkunAdm> {
 
     AdminModel adminModel = AdminModel();
     final noRM = Random().nextInt(100000);
+    String noadmin = "000" + noRM.toString();
     adminModel.email = admin!.email;
-    adminModel.uid = admin.uid;
+    adminModel.uid = noadmin;
     adminModel.namaLengkap = namaLengkap.text;
     adminModel.noHp = noHp.text;
-    adminModel.noPetugas = "000" + noRM.toString();
+    adminModel.noPetugas = noadmin;
 
     await firebaseFirestore
         .collection("admin")
