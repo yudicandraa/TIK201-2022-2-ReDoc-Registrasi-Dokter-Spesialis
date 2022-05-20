@@ -1,6 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:redoc/admin/anak.dart';
+import 'package:redoc/admin/bedah.dart';
+import 'package:redoc/admin/gigi.dart';
+import 'package:redoc/admin/gizi.dart';
 import 'package:redoc/admin/homeAdmin.dart';
+import 'package:redoc/admin/jantung.dart';
+import 'package:redoc/admin/jiwa.dart';
+import 'package:redoc/admin/kandungan.dart';
+import 'package:redoc/admin/mata.dart';
+import 'package:redoc/admin/paru.dart';
+import 'package:redoc/admin/penyakitdalam.dart';
+import 'package:redoc/admin/saraf.dart';
+import 'package:redoc/admin/tht.dart';
 import 'package:redoc/anak.dart';
+
 import 'package:redoc/bedah.dart';
 import 'package:redoc/beranda.dart';
 import 'package:redoc/gigi.dart';
@@ -94,7 +107,7 @@ class _DaftarAntrianSemuaState extends State<DaftarAntrianSemua> {
                             Navigator.push(
                               context,
                               new MaterialPageRoute(
-                                  builder: (context) => new DaftarKandungan()),
+                                  builder: (context) => new KandunganAdmin()),
                             );
                           },
                           icon:
@@ -109,7 +122,7 @@ class _DaftarAntrianSemuaState extends State<DaftarAntrianSemua> {
                             Navigator.push(
                               context,
                               new MaterialPageRoute(
-                                  builder: (context) => new DaftarAnak()),
+                                  builder: (context) => new AnakAdmin()),
                             );
                           },
                           icon: Image(image: AssetImage('assets/anak.png')),
@@ -123,7 +136,7 @@ class _DaftarAntrianSemuaState extends State<DaftarAntrianSemua> {
                             Navigator.push(
                               context,
                               new MaterialPageRoute(
-                                  builder: (context) => new DaftarPDalam()),
+                                  builder: (context) => new PDalamAdmin()),
                             );
                           },
                           icon: Image(
@@ -138,7 +151,7 @@ class _DaftarAntrianSemuaState extends State<DaftarAntrianSemua> {
                             Navigator.push(
                               context,
                               new MaterialPageRoute(
-                                  builder: (context) => new DaftarParu()),
+                                  builder: (context) => new ParuAdmin()),
                             );
                           },
                           icon: Image(image: AssetImage('assets/paru.png')),
@@ -156,7 +169,7 @@ class _DaftarAntrianSemuaState extends State<DaftarAntrianSemua> {
                             Navigator.push(
                               context,
                               new MaterialPageRoute(
-                                  builder: (context) => new DaftarSaraf()),
+                                  builder: (context) => new SarafAdmin()),
                             );
                           },
                           icon: Image(image: AssetImage('assets/saraf.png')),
@@ -170,7 +183,7 @@ class _DaftarAntrianSemuaState extends State<DaftarAntrianSemua> {
                             Navigator.push(
                               context,
                               new MaterialPageRoute(
-                                  builder: (context) => new DaftarGigi()),
+                                  builder: (context) => new GigiAdmin()),
                             );
                           },
                           icon: Image(image: AssetImage('assets/gigi.png')),
@@ -184,7 +197,7 @@ class _DaftarAntrianSemuaState extends State<DaftarAntrianSemua> {
                             Navigator.push(
                               context,
                               new MaterialPageRoute(
-                                  builder: (context) => new DaftarMata()),
+                                  builder: (context) => new MataAdmin()),
                             );
                           },
                           icon: Image(image: AssetImage('assets/mata.png')),
@@ -198,7 +211,7 @@ class _DaftarAntrianSemuaState extends State<DaftarAntrianSemua> {
                             Navigator.push(
                               context,
                               new MaterialPageRoute(
-                                  builder: (context) => new DaftarTHT()),
+                                  builder: (context) => new THTAdmin()),
                             );
                           },
                           icon: Image(image: AssetImage('assets/tht.png')),
@@ -216,7 +229,7 @@ class _DaftarAntrianSemuaState extends State<DaftarAntrianSemua> {
                             Navigator.push(
                               context,
                               new MaterialPageRoute(
-                                  builder: (context) => new DaftarBedahUmum()),
+                                  builder: (context) => new BedahAdmin()),
                             );
                           },
                           icon: Image(image: AssetImage('assets/bedah.png')),
@@ -230,7 +243,7 @@ class _DaftarAntrianSemuaState extends State<DaftarAntrianSemua> {
                             Navigator.push(
                               context,
                               new MaterialPageRoute(
-                                  builder: (context) => new DaftarJantung()),
+                                  builder: (context) => new JantungAdmin()),
                             );
                           },
                           icon: Image(image: AssetImage('assets/jantung.png')),
@@ -244,7 +257,7 @@ class _DaftarAntrianSemuaState extends State<DaftarAntrianSemua> {
                             Navigator.push(
                               context,
                               new MaterialPageRoute(
-                                  builder: (context) => new DaftarJiwa()),
+                                  builder: (context) => new JiwaAdmin()),
                             );
                           },
                           icon: Image(image: AssetImage('assets/jiwa.png')),
@@ -258,7 +271,7 @@ class _DaftarAntrianSemuaState extends State<DaftarAntrianSemua> {
                             Navigator.push(
                               context,
                               new MaterialPageRoute(
-                                  builder: (context) => new DaftarGizi()),
+                                  builder: (context) => new GiziAdmin()),
                             );
                           },
                           icon: Image(image: AssetImage('assets/gizi.png')),

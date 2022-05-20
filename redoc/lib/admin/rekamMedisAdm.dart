@@ -87,7 +87,7 @@ class _RMadminState extends State<RMadmin> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      width: 300,
+                      width: 370,
                       padding: new EdgeInsets.only(
                         right: 10.0,
                         left: 10,
@@ -110,17 +110,13 @@ class _RMadminState extends State<RMadmin> {
                             borderSide: BorderSide(
                                 color: Color(0xff989898), width: 2.0),
                           ),
-                          labelText: 'UID',
+                          labelText: 'No. Rekam Medis',
                           labelStyle: TextStyle(
                               color: Color(0xff989898),
                               fontFamily: 'PoppinsRegular',
                               fontSize: 12),
                         ),
                       ),
-                    ),
-                    Container(
-                      child: GestureDetector(
-                          child: Image(image: AssetImage('assets/search.png'))),
                     ),
                   ],
                 ),
@@ -188,7 +184,7 @@ class _RMadminState extends State<RMadmin> {
   }
 
   void filter(String rekammedis, String dataRMpasien) async {
-    final hasil = await FirebaseFirestore.instance.collection('users');
+    final hasil = await FirebaseFirestore.instance.collection('rekammedis');
     Map<String, String> dataRMupdate = {"dataRM": dataRMpasien};
     hasil.doc(rekammedis).update(dataRMupdate);
   }

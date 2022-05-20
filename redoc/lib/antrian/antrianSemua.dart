@@ -201,6 +201,11 @@ class _AntrianSemuaState extends State<AntrianSemua> {
                               .doc(user!.uid)
                               .delete();
 
+                          FirebaseFirestore.instance
+                              .collection("doktergizi")
+                              .doc(user!.uid)
+                              .delete();
+
                           Fluttertoast.showToast(msg: "Antrian Dibatalkan");
                           Navigator.push(
                             context,

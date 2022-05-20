@@ -373,7 +373,14 @@ class _DaftarAkunState extends State<DaftarAkun> {
         .collection("users")
         .doc(user.uid)
         .set(userModel.toMap());
-
+    await firebaseFirestore
+        .collection('rekammedis')
+        .doc(userModel.rekamMedis)
+        .set({
+      "nama": userModel.namaLengkap,
+      "noRM": userModel.rekamMedis,
+      "dataRM": " "
+    });
     Fluttertoast.showToast(msg: "Pendaftaran Berhasil");
     Navigator.pushAndRemoveUntil(
         (context),

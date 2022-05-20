@@ -28,19 +28,18 @@ class _PenyakitKandunganState extends State<PenyakitKandungan> {
   void initState() {
     super.initState();
     FirebaseFirestore.instance
+        .collection("users")
+        .doc(user!.uid)
+        .get()
+        .then((value) {
+      this.loginUser = UserModel.fromMap(value.data());
+    });
+    FirebaseFirestore.instance
         .collection("dokter")
         .doc("kandungan")
         .get()
         .then((value) {
       this.daftarDokter = DokterModel.fromMap(value.data());
-
-      FirebaseFirestore.instance
-          .collection("users")
-          .doc(user!.uid)
-          .get()
-          .then((value) {
-        this.loginUser = UserModel.fromMap(value.data());
-      });
 
       setState(() {});
     });

@@ -1,44 +1,37 @@
-import 'dart:ui';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:redoc/beranda.dart';
-import 'package:redoc/pilihdokter.dart';
-import 'package:redoc/rekammedis_model.dart';
-import 'package:redoc/user_model.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:redoc/admin/homeAdmin.dart';
+import 'package:redoc/admin/utamaAdmin.dart';
+import 'package:redoc/antrian/DaftarAntrian.dart';
 
-class RekamMedis extends StatefulWidget {
-  const RekamMedis({Key? key}) : super(key: key);
+import 'package:redoc/antrian/antrian_model.dart';
+import 'package:redoc/beranda.dart';
+
+class BedahAdmin extends StatefulWidget {
+  const BedahAdmin({Key? key}) : super(key: key);
 
   @override
-  State<RekamMedis> createState() => _RekamMedisState();
+  State<BedahAdmin> createState() => _BedahAdminState();
 }
 
-class _RekamMedisState extends State<RekamMedis> {
+class _BedahAdminState extends State<BedahAdmin> {
   User? user = FirebaseAuth.instance.currentUser;
-  UserModel loginUser = UserModel();
-  RekamMedisModel rekammedis = RekamMedisModel();
+  Antrian test = Antrian();
+  List daftarPasien = [];
   @override
   void initState() {
     super.initState();
 
-    FirebaseFirestore.instance
-        .collection("users")
-        .doc(user!.uid)
-        .get()
-        .then((value) {
-      this.loginUser = UserModel.fromMap(value.data());
-
-      print(loginUser.rekamMedis);
-      FirebaseFirestore.instance
-          .collection("rekammedis")
-          .doc(loginUser.rekamMedis)
-          .get()
-          .then((value) {
-        this.rekammedis = RekamMedisModel.fromMap(value.data());
-        setState(() {});
+    FirebaseFirestore.instance.collection("dokterbedah").get().then((value) {
+      value.docs.forEach((element) {
+        //print(element.data());
+        final data = element.data();
+        daftarPasien.add(data);
+        //print(data['pasien']['nama']);
       });
+      setState(() {});
     });
   }
 
@@ -62,7 +55,7 @@ class _RekamMedisState extends State<RekamMedis> {
                         Navigator.push(
                           context,
                           new MaterialPageRoute(
-                              builder: (context) => new Home()),
+                              builder: (context) => new DaftarAntrianSemua()),
                         );
                       },
                       icon: Image(image: AssetImage('assets/backbutton.png')),
@@ -81,41 +74,39 @@ class _RekamMedisState extends State<RekamMedis> {
             ),
             Column(
               children: [
-                Image(image: AssetImage('assets/textRM.png')),
                 Text(
-                  'No Rekam Medis : ${rekammedis.noRM}',
-                  style: TextStyle(
-                      fontFamily: 'PoppinsRegular',
-                      fontSize: 14,
-                      color: Color(0xff000000)),
+                  "Daftar Pasien",
+                  style: TextStyle(fontFamily: 'Poppins', fontSize: 19),
                 ),
-                SizedBox(
-                  height: 50,
+                Text(
+                  "Spesialis Bedah Umum",
+                  style: TextStyle(fontFamily: 'PoppinsRegular', fontSize: 14),
                 ),
                 SizedBox(
                   height: 20,
                 ),
-                Stack(
-                  children: [
-                    Container(
-                      alignment: Alignment.center,
-                      child: Image(image: AssetImage('assets/diagnosa.png')),
-                    ),
-                    Container(
-                      alignment: Alignment.center,
-                      margin: EdgeInsets.only(top: 40),
-                      child: Text(
-                        '${rekammedis.dataRM}',
-                        style: TextStyle(
-                            fontFamily: 'PoppinsRegular',
-                            fontSize: 13,
-                            color: Color(0xff35858B)),
+                ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemCount: daftarPasien.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text(
+                        daftarPasien[index]['pasien']['nama'],
+                        style: TextStyle(fontFamily: 'Poppins', fontSize: 14),
                       ),
-                    )
-                  ],
+                      subtitle: Text(
+                        "No. Antrian : ${daftarPasien[index]['antrian'].toString()}",
+                        style: TextStyle(
+                            fontFamily: 'PoppinsRegular', fontSize: 14),
+                      ),
+                    );
+                  },
+                ),
+                SizedBox(
+                  height: 80,
                 ),
                 Container(
-                  margin: const EdgeInsets.only(top: 10),
                   child: SizedBox(
                     height: 100,
                     width: 150,
@@ -124,7 +115,7 @@ class _RekamMedisState extends State<RekamMedis> {
                         Navigator.push(
                           context,
                           new MaterialPageRoute(
-                              builder: (context) => new Home()),
+                              builder: (context) => new HomeAdmin()),
                         );
                       },
                       icon:
